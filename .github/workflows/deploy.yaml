@@ -1,0 +1,99 @@
+name: Build and deploy
+
+on: [push]
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}/${{ github.repository }}:${{ github.sha }}
+
+
+jobs:
+  build:
+    name: Build and publish Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17.x'
+
+      - name: Setup gradle dependency cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build with Gradle
+        run: ./gradlew build --info
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ${{ env.IMAGE }},${{ env.LATEST_IMAGE }}
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Archive NAIS yaml
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v1
+        with:
+          name: nais-yaml
+          path: .nais
+
+  deploy-dev:
+    name: Deploy to dev
+    needs: [build]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch NAIS yaml
+        uses: actions/download-artifact@v1
+        with:
+          name: nais-yaml
+          path: nais
+
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-fss
+          RESOURCE: nais/dev.yaml
+          PRINT_PAYLOAD: true
+
+#  deploy-prod:
+#    name: Deploy to Production
+#    needs: [build]
+#    if: github.ref == 'refs/heads/main'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Fetch NAIS yaml
+#        uses: actions/download-artifact@v1
+#        with:
+#          name: nais-yaml
+#          path: nais
+#
+#      - uses: nais/deploy/actions/deploy@v1
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          CLUSTER: prod-gcp
+#          RESOURCE: nais/nais.yaml
+#          VARS: nais/prod-vars.yaml
+#          PRINT_PAYLOAD: true

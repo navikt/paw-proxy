@@ -10,7 +10,7 @@
     <description>Enkel proxy for å nå paw sine tjenester i fss</description>
 
     <properties>
-        <main.class>no.nav.pawproxy.app.BootstrapKt</main.class>
+        <main.class>no.nav.pawproxy.app.ApplicationKt</main.class>
         <ktor.version>1.6.7</ktor.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.version>1.6.10</kotlin.version>
@@ -83,12 +83,9 @@
 
         <plugins>
             <plugin>
-                <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
-                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -105,6 +102,18 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <compilerPlugins>
+                        <plugin>kotlinx-serialization</plugin>
+                    </compilerPlugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-serialization</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -145,32 +154,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.6.10</version>
-                <executions>
-                <execution>
-                    <id>compile</id>
-                    <phase>compile</phase>
-                    <goals>
-                        <goal>compile</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <compilerPlugins>
-                    <plugin>kotlinx-serialization</plugin>
-                </compilerPlugins>
-            </configuration>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-maven-serialization</artifactId>
-                    <version>${kotlin.version}</version>
-                </dependency>
-            </dependencies>
             </plugin>
         </plugins>
     </build>

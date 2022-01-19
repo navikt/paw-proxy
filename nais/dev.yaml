@@ -33,7 +33,7 @@ spec:
       memory: 512Mi
     requests:
       cpu: "500m"
-      memory: 580Mi
+      memory: 512Mi
   accessPolicy:
 
     outbound:

@@ -7,15 +7,17 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
-import io.ktor.util.*
+import io.ktor.server.netty.*
 import no.nav.pawproxy.health.healthApi
 import no.nav.pawproxy.hello.helloApi
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
-
 import no.nav.security.token.support.ktor.tokenValidationSupport
 
-@KtorExperimentalAPI
+fun main(args: Array<String>): Unit = EngineMain.main(args)
+
+
+@Suppress("unused")
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
     val environment = Environment()
     val config = IssuerConfig(
@@ -30,10 +32,6 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         host("www.dev.nav.no", schemes = listOf("https"))
         allowCredentials = true
         header(HttpHeaders.ContentType)
-    }
-
-    install(ContentNegotiation) {
-        json(jsonConfig())
     }
 
     install(Authentication) {

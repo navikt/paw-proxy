@@ -1,7 +1,6 @@
-.gradle
 .idea
 out
-build
+target
 *.iml
 *.ipr
 *.iws

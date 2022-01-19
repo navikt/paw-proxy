@@ -1,18 +1,13 @@
 package no.nav.pawproxy.app
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.HttpTimeout
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.*
+import io.ktor.client.engine.apache.*
+import io.ktor.client.features.*
 
 object HttpClientBuilder {
 
-    fun build(jsonSerializer: KotlinxSerializer = KotlinxSerializer(jsonConfig())): HttpClient {
+    fun build(): HttpClient {
         return HttpClient(Apache) {
-            install(JsonFeature) {
-                serializer = jsonSerializer
-            }
             install(HttpTimeout)
         }
     }

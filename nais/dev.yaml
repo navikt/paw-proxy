@@ -38,6 +38,8 @@ spec:
     inbound:
       rules:
         - application: arbeidssokerregistrering-veileder
+          cluster: dev-gcp
+          namespace: paw
     outbound:
       rules:
         - application: veilarbregistrering

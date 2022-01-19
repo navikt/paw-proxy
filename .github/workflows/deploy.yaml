@@ -3,7 +3,7 @@ name: Build and deploy
 on: [push]
 
 env:
-  IMAGE: ghcr.io/${{ github.repository }}/${{ github.repository }}:${{ github.sha }}
+  IMAGE: ghcr.io/${{ github.repository }}/paw-proxy:${{ github.sha }}
 
 
 jobs:

@@ -35,7 +35,9 @@ spec:
       cpu: "500m"
       memory: 512Mi
   accessPolicy:
-
+    inbound:
+      rules:
+        - application: arbeidssokerregistrering-veileder
     outbound:
       rules:
         - application: veilarbregistrering

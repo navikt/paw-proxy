@@ -10,13 +10,19 @@ import io.ktor.serialization.*
 import io.ktor.util.*
 import no.nav.pawproxy.health.healthApi
 import no.nav.pawproxy.hello.helloApi
+import no.nav.security.token.support.ktor.IssuerConfig
+import no.nav.security.token.support.ktor.TokenSupportConfig
 
 import no.nav.security.token.support.ktor.tokenValidationSupport
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
     val environment = Environment()
-    val config = this.environment.config
+    val config = IssuerConfig(
+        name = "veiledere",
+        discoveryUrl = environment.wellKnownUrl,
+        acceptedAudience = listOf(environment.clientId)
+    )
 
     install(DefaultHeaders)
 
@@ -31,7 +37,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
     }
 
     install(Authentication) {
-        tokenValidationSupport(config = config)
+        tokenValidationSupport(config = TokenSupportConfig(config))
     }
 
     routing {

@@ -12,5 +12,6 @@ fun Route.helloApi() {
     get("/is-authenticated") {
         logger.info("User is authenticated")
         call.respondText("""{ "isAuthenticated": true }""", ContentType.Application.Json)
+        //fetch('https://arbeidssokerregistrering.dev.intern.nav.no/veilarbregistrering/is-authenticated') fra console skal trigge denne koden
     }
 }

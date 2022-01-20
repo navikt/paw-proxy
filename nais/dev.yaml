@@ -24,7 +24,7 @@ spec:
   secureLogs:
     enabled: true
   ingresses:
-    - "https://paw-proxy.dev-fsspub.nais.io"
+    - "https://paw-proxy.dev-fss-pub.nais.io"
     - "https://paw-proxy.dev.intern.nav.no/"
   env:
     - name: CORS_ALLOWED_ORIGINS

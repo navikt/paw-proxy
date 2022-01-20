@@ -2,8 +2,11 @@ package no.nav.pawproxy.registrering
 
 import io.ktor.application.*
 import io.ktor.request.*
+import io.ktor.response.*
 import io.ktor.routing.*
-import no.nav.pawproxy.app.logger
+import org.slf4j.LoggerFactory
+
+private val LOG = LoggerFactory.getLogger("no.nav.pawproxy.registrering.veilarbregistreringRoute")
 
 
 fun Route.veilarbregistrering() {
@@ -14,7 +17,9 @@ fun Route.veilarbregistrering() {
 
         get {
             val path = call.request.uri.removePrefix("/veilarbregistrering")
-            logger.info("Kall til veilarbregistrering med path: $path")
+            LOG.info("Kall til veilarbregistrering med path: $path")
+            call.respondText("Hallo veilarbregistrering")
+            // TODO: 1. veksle inn token, 2. send kall videre til veilarbregistrering
         }
     }
 }

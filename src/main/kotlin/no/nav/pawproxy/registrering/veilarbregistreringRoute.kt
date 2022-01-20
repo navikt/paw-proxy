@@ -8,10 +8,13 @@ import no.nav.pawproxy.app.logger
 
 fun Route.veilarbregistrering() {
 
-    get("/veilarbregistrering{...}") {
-        val path = call.request.uri.removePrefix("/veilarbregistrering")
-        logger.info("Kall til veilarbregistrering med path: $path")
+    route("/veilarbregistrering{...}") {
 
         val veilarbregistreringBaseUrl = "https://veilarbregistrering.dev.intern.nav.no"
+
+        get {
+            val path = call.request.uri.removePrefix("/veilarbregistrering")
+            logger.info("Kall til veilarbregistrering med path: $path")
+        }
     }
 }

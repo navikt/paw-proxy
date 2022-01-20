@@ -25,6 +25,7 @@ fun Application.module() {
         discoveryUrl = environment.wellKnownUrl,
         acceptedAudience = listOf(environment.clientId)
     )
+    logger.info("Starter app...")
 
     install(DefaultHeaders)
 

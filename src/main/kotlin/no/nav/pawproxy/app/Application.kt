@@ -9,6 +9,7 @@ import io.ktor.routing.*
 import io.ktor.server.netty.*
 import no.nav.pawproxy.health.healthApi
 import no.nav.pawproxy.hello.helloApi
+import no.nav.pawproxy.registrering.veilarbregistrering
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -42,6 +43,7 @@ fun Application.module() {
 
         authenticate {
             helloApi()
+            veilarbregistrering()
         }
     }
 

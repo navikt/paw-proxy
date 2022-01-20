@@ -17,7 +17,6 @@ fun Routing.healthApi(healthService: HealthService) {
     }
 
     get("/internal/isAlive") {
-        logger.info("isAlive")
         call.respondText(text = "ALIVE", contentType = ContentType.Text.Plain)
     }
 

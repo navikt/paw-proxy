@@ -43,7 +43,7 @@ fun Application.module() {
         healthApi(appContext.healthService)
 
         authenticate {
-            veilarbregistrering()
+            veilarbregistrering(appContext.httpClient, appContext.aadOboService)
             helloApi()
         }
     }

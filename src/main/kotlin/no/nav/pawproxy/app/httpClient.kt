@@ -1,4 +1,4 @@
-package no.nav.pawproxy.config
+package no.nav.pawproxy.app
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.*
@@ -21,3 +21,12 @@ suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispat
         method = HttpMethod.Post
     }
 }
+
+suspend inline fun <reified T> HttpClient.get(url: String): T = withContext(Dispatchers.IO) {
+    request {
+        url(url)
+        method = HttpMethod.Get
+    }
+}
+
+val client = HttpClientBuilder.build()

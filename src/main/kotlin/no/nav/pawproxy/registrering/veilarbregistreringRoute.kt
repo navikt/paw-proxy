@@ -29,7 +29,6 @@ fun Route.veilarbregistrering() {
         get {
             val path = call.request.uri
             logger.info("Kall til veilarbregistrering med path: $path")
-            call.respondText("Hallo veilarbregistrering")
 
             val accessToken = call.request.authorization()?.substring("Bearer ".length) ?: throw IllegalStateException("Må ha access token!")
             val onBehalfOfTokenClient = OnBehalfOfTokenClient(DefaultOAuth2HttpClient(client))
@@ -62,6 +61,7 @@ fun Route.veilarbregistrering() {
 
             val response = client.get<String>("$veilarbregistreringBaseUrl$path")
             logger.info("Respons fra veilarbregistrering: $response")
+            call.respondText("Hallo veilarbregistrering")
         }
     }
 }

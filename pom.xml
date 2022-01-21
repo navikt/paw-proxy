@@ -79,6 +79,11 @@
             <artifactId>token-validation-ktor</artifactId>
             <version>${tokenSupport.version}</version>
         </dependency>
+        <dependency>
+            <groupId>no.nav.security</groupId>
+            <artifactId>token-client-core</artifactId>
+            <version>${tokenSupport.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

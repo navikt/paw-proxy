@@ -18,6 +18,9 @@ fun getPropertyOrNull(property: String): String? =
 fun requireClusterName() =
     requireProperty("NAIS_CLUSTER_NAME")
 
+fun requireNamespace(): String =
+    requireProperty("NAIS_NAMESPACE")
+
 fun requireApplicationName() =
     requireProperty("NAIS_APP_NAME")
 

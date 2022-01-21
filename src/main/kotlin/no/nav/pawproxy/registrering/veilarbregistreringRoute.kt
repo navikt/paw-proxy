@@ -21,7 +21,7 @@ fun Route.veilarbregistrering() {
         val veilarbregistreringBaseUrl = "https://veilarbregistrering.dev.intern.nav.no"
 
         get {
-            val path = call.request.uri.removePrefix("/veilarbregistrering")
+            val path = call.request.uri
             logger.info("Kall til veilarbregistrering med path: $path")
             call.respondText("Hallo veilarbregistrering")
             // TODO: 1. veksle inn token, 2. send kall videre til veilarbregistrering

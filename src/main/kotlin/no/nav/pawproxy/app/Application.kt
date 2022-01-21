@@ -41,9 +41,9 @@ fun Application.module() {
 
     routing {
         healthApi(appContext.healthService)
-        veilarbregistrering()
 
         authenticate {
+            veilarbregistrering()
             helloApi()
         }
     }

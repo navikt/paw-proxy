@@ -43,16 +43,16 @@ fun Application.module() {
         healthApi(appContext.healthService)
 
         authenticate {
-            veilarbregistrering(appContext.httpClient, appContext.aadOboService)
+            veilarbregistrering(appContext.internalHttpClient, appContext.aadOboService)
             helloApi()
         }
     }
 
-    configureShutdownHook(appContext.httpClient)
+    configureShutdownHook(listOf(appContext.internalHttpClient, appContext.externalHttpClient))
 }
 
-private fun Application.configureShutdownHook(httpClient: HttpClient) {
+private fun Application.configureShutdownHook(list: List<HttpClient>) {
     environment.monitor.subscribe(ApplicationStopping) {
-        httpClient.close()
+        list.forEach { it.close() }
     }
 }

@@ -9,6 +9,7 @@ import io.ktor.routing.*
 import io.ktor.server.netty.*
 import no.nav.pawproxy.health.healthApi
 import no.nav.pawproxy.hello.helloApi
+import no.nav.pawproxy.person.veilarbperson
 import no.nav.pawproxy.registrering.veilarbregistrering
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
@@ -43,6 +44,7 @@ fun Application.module() {
 
         authenticate {
             veilarbregistrering(appContext.internalHttpClient, appContext.aadOboService)
+            veilarbperson(appContext.internalHttpClient, appContext.aadOboService)
             helloApi()
         }
     }

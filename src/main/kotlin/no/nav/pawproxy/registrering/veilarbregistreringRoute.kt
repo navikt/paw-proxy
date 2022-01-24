@@ -2,12 +2,15 @@ package no.nav.pawproxy.registrering
 
 import io.ktor.application.*
 import io.ktor.client.*
+import io.ktor.client.request.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.*
+import no.nav.pawproxy.app.get
 import no.nav.pawproxy.oauth2.AadOboService
 import no.nav.pawproxy.oauth2.veilarbregistrering
+import org.apache.http.Header
 
 
 fun Route.veilarbregistrering(httpClient: HttpClient, aadOboService: AadOboService) {
@@ -24,7 +27,9 @@ fun Route.veilarbregistrering(httpClient: HttpClient, aadOboService: AadOboServi
 
             logger.info("Hurra! ${accessToken}")
 
-            val response = httpClient.get<String>("$veilarbregistreringBaseUrl$path")
+            val response = httpClient.get<String>("$veilarbregistreringBaseUrl$path") {
+                header("Authorization", "Bearer $accessToken")
+            }
             logger.info("Respons fra veilarbregistrering: $response")
             call.respondText("Hallo veilarbregistrering")
         }

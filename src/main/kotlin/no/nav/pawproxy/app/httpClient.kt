@@ -14,9 +14,11 @@ suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispat
     }
 }
 
-suspend inline fun <reified T> HttpClient.get(url: String): T = withContext(Dispatchers.IO) {
-    request {
-        url(url)
-        method = HttpMethod.Get
+suspend inline fun <reified T> HttpClient.get(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
+    withContext(Dispatchers.IO) {
+        request {
+            url(url)
+            method = HttpMethod.Get
+            apply(block)
+        }
     }
-}

@@ -5,11 +5,11 @@ import no.nav.pawproxy.oauth2.AadOboService
 
 class ApplicationContext {
 
-    val httpClient = HttpClientBuilder.build()
+    val externalHttpClient = HttpClientBuilder.build()
+    val internalHttpClient = HttpClientBuilder.build(false)
 
     val healthService = HealthService(this)
 
-    val aadOboService = AadOboService(httpClient)
-    
+    val aadOboService = AadOboService(externalHttpClient)
 
 }

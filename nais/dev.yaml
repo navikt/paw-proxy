@@ -45,3 +45,5 @@ spec:
     outbound:
       rules:
         - application: veilarbregistrering
+        - application: veilarbperson
+          namespace: pto

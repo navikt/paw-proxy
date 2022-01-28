@@ -10,7 +10,7 @@ import io.ktor.client.features.json.*
 
 object HttpClientBuilder {
 
-    fun build(): HttpClient {
+    fun build(setProxy: Boolean = true): HttpClient {
         return HttpClient(Apache) {
             install(HttpTimeout)
 
@@ -21,7 +21,9 @@ object HttpClientBuilder {
                 }
             }
 
-            engine { this.proxy = ProxyBuilder.http(requireProperty("HTTP_PROXY")) }
+            if (setProxy) {
+                engine { this.proxy = ProxyBuilder.http(requireProperty("HTTP_PROXY")) }
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import io.ktor.routing.*
 import io.ktor.server.netty.*
 import no.nav.pawproxy.health.healthApi
 import no.nav.pawproxy.hello.helloApi
+import no.nav.pawproxy.person.veilarbperson
 import no.nav.pawproxy.registrering.veilarbregistrering
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
@@ -25,7 +26,6 @@ fun Application.module() {
         discoveryUrl = environment.wellKnownUrl,
         acceptedAudience = listOf(environment.clientId)
     )
-    logger.info("Starter app...")
 
     install(DefaultHeaders)
 
@@ -43,16 +43,17 @@ fun Application.module() {
         healthApi(appContext.healthService)
 
         authenticate {
-            veilarbregistrering(appContext.httpClient, appContext.aadOboService)
+            veilarbregistrering(appContext.internalHttpClient, appContext.aadOboService)
+            veilarbperson(appContext.internalHttpClient, appContext.aadOboService)
             helloApi()
         }
     }
 
-    configureShutdownHook(appContext.httpClient)
+    configureShutdownHook(listOf(appContext.internalHttpClient, appContext.externalHttpClient))
 }
 
-private fun Application.configureShutdownHook(httpClient: HttpClient) {
+private fun Application.configureShutdownHook(list: List<HttpClient>) {
     environment.monitor.subscribe(ApplicationStopping) {
-        httpClient.close()
+        list.forEach { it.close() }
     }
 }

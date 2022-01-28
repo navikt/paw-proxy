@@ -59,3 +59,4 @@ class AadOboService(private val httpClient: HttpClient) {
 data class DownstreamApi(val cluster: String, val namespace: String, val appName: String)
 
 val veilarbregistrering = DownstreamApi(requireClusterName(), requireNamespace(), "veilarbregistrering")
+val veilarbperson = DownstreamApi(requireClusterName(), requireNamespace(), "veilarbperson")

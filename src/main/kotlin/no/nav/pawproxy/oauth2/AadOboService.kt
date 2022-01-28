@@ -1,5 +1,7 @@
 package no.nav.pawproxy.oauth2
 
+import com.nimbusds.jwt.JWT
+import com.nimbusds.jwt.JWTParser
 import com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -8,6 +10,7 @@ import io.ktor.client.features.*
 import io.ktor.client.statement.*
 import io.ktor.request.*
 import io.ktor.response.*
+import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireClusterName
 import no.nav.pawproxy.app.requireNamespace
 import no.nav.pawproxy.app.requireProperty
@@ -16,6 +19,7 @@ import no.nav.security.token.support.client.core.ClientProperties
 import no.nav.security.token.support.client.core.OAuth2GrantType
 import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenService
 import no.nav.security.token.support.client.core.oauth2.OnBehalfOfTokenClient
+import no.nav.security.token.support.core.utils.JwtTokenUtil
 import java.net.URI
 import java.util.*
 
@@ -26,6 +30,8 @@ class AadOboService(private val httpClient: HttpClient) {
 
     fun getAccessToken(call: ApplicationCall, api: DownstreamApi): String {
         val accessToken = call.request.authorization()?.substring("Bearer ".length) ?: throw IllegalStateException("Forventet access token!")
+        logger.info("Now Exchanging token with claims: ${JWTParser.parse(accessToken).jwtClaimsSet}")
+
         val accessTokenService =
             OAuth2AccessTokenService({ Optional.of(accessToken) }, onBehalfOfTokenClient, null, null)
 

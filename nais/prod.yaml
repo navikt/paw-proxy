@@ -1,0 +1,52 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: paw-proxy
+  namespace: paw
+  labels:
+    team: paw
+spec:
+  image: {{image}}
+  port: 8080
+  liveness:
+    path: /internal/isAlive
+    initialDelay: 10
+  readiness:
+    path: /internal/isReady
+    initialDelay: 10
+  replicas:
+    min: 2
+    max: 4
+  azure:
+    application:
+      enabled: true
+  webproxy: true
+  secureLogs:
+    enabled: true
+  ingresses:
+    - "https://paw-proxy.prod-fss-pub.nais.io"
+    - "https://paw-proxy.intern.nav.no/"
+  env:
+    - name: CORS_ALLOWED_ORIGINS
+      value: nav.no
+  resources:
+    limits:
+      cpu: "1"
+      memory: 512Mi
+    requests:
+      cpu: "500m"
+      memory: 512Mi
+  accessPolicy:
+    inbound:
+      rules:
+        - application: arbeidssokerregistrering-veileder
+          cluster: prod-gcp
+          namespace: paw
+        - application: veilarbregistrering
+          cluster: prod-fss
+          namespace: paw
+    outbound:
+      rules:
+        - application: veilarbregistrering
+        - application: veilarbperson
+          namespace: pto

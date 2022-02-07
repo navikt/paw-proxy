@@ -23,12 +23,10 @@ fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
             val path = call.request.uri
 
             val accessToken: String = tokenService.getAccessToken(call, veilarbarena)
-            if (isDevelopment()) {
-                logger.info("Arena accesstoken: $accessToken")
-            }
 
             val response = httpClient.get<String>("$veilarbarenaBaseUrl$path") {
                 header("Authorization", "Bearer $accessToken")
+                header("Nav-Consumer-Id", "veilarbregistrering")
             }
             logger.info("Respons fra veilarbarena med path $path: $response")
             call.respondText(response)

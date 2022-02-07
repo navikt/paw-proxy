@@ -50,3 +50,6 @@ spec:
         - application: veilarbregistrering
         - application: veilarbperson
           namespace: pto
+        - application: veilarbarena
+          namespace: pto
+          cluster: dev-fss

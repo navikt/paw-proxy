@@ -17,7 +17,8 @@ fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
 
     route("/veilarbarena{...}") {
 
-        val veilarbarenaBaseUrl = "http://veilarbarena.pto.svc.nais.local"
+        val veilarbarenaBaseUrl =
+            if (isDevelopment()) "https://veilarbarena-q1.nais.preprod.local" else "https://veilarbarena.nais.adeo.no"
 
         get {
             val path = call.request.uri

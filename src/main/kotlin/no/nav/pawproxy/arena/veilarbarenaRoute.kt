@@ -23,7 +23,7 @@ fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
             val path = call.request.uri
 
             val accessToken: String = tokenService.getAccessToken(call, veilarbarena)
-
+            logger.info("Proxying request to url '$veilarbarenaBaseUrl$path'")
             val response = httpClient.get<String>("$veilarbarenaBaseUrl$path") {
                 header("Authorization", "Bearer $accessToken")
                 header("Nav-Consumer-Id", "veilarbregistrering")

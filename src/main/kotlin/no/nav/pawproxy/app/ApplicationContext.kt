@@ -1,7 +1,7 @@
 package no.nav.pawproxy.app
 
 import no.nav.pawproxy.health.HealthService
-import no.nav.pawproxy.oauth2.AadOboService
+import no.nav.pawproxy.oauth2.TokenService
 
 class ApplicationContext {
 
@@ -10,6 +10,6 @@ class ApplicationContext {
 
     val healthService = HealthService(this)
 
-    val aadOboService = AadOboService(externalHttpClient)
+    val tokenService = TokenService(externalHttpClient)
 
 }

@@ -8,11 +8,11 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.get
 import no.nav.pawproxy.app.logger
-import no.nav.pawproxy.oauth2.AadOboService
+import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbregistrering
 
 
-fun Route.veilarbregistrering(httpClient: HttpClient, aadOboService: AadOboService) {
+fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService) {
 
     route("/veilarbregistrering{...}") {
 
@@ -20,7 +20,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, aadOboService: AadOboServi
 
         get {
             val path = call.request.uri
-            val accessToken: String = aadOboService.getAccessToken(call, veilarbregistrering)
+            val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
             val response = httpClient.get<String>("$veilarbregistreringBaseUrl$path") {
                 header("Authorization", "Bearer $accessToken")

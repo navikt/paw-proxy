@@ -7,6 +7,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.get
+import no.nav.pawproxy.app.isDevelopment
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbarena
@@ -22,6 +23,9 @@ fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
             val path = call.request.uri
 
             val accessToken: String = tokenService.getAccessToken(call, veilarbarena)
+            if (isDevelopment()) {
+                logger.info("Arena accesstoken: $accessToken")
+            }
 
             val response = httpClient.get<String>("$veilarbarenaBaseUrl$path") {
                 header("Authorization", "Bearer $accessToken")

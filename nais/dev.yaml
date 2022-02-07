@@ -43,7 +43,7 @@ spec:
           cluster: dev-gcp
           namespace: paw
         - application: veilarbregistrering
-          cluster: prod-fss
+          cluster: dev-fss
           namespace: paw
     outbound:
       rules:

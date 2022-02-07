@@ -35,6 +35,7 @@ fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
                         .also { response -> logger.info("Respons fra veilarbarena med path $path: $response") }
                 },
                 onFailure = {
+                    logger.warn("Feil mot veilarbarena med path $path: ${it.message}")
                     call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
                 }
             )

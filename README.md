@@ -4,8 +4,8 @@ Proxy for at arbeidssokerregistrering-tjenester i gcp kan kalle tjenester i fss.
 Tjenesten krever Azure-tokens og veksler til hva den bakomforliggende tjenesten trenger.
 
 ## Tjenester dekker
-* /veilarbregistrering (get)
-* /veilarbperson (get)
+* GET /veilarbregistrering
+* GET /veilarbarena
 
 ### Bruk
 paw-proxy har en route per proxyet tjeneste, som beskrevet over. Alt etter dette i url'en blir proxyet videre.   

@@ -6,6 +6,7 @@ import io.ktor.client.request.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.app.get
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.oauth2.TokenService
@@ -22,11 +23,20 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             val path = call.request.uri
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            val response = httpClient.get<String>("$veilarbregistreringBaseUrl$path") {
-                header("Authorization", "Bearer $accessToken")
-            }
-            logger.info("Respons fra veilarbregistrering med path $path: $response")
-            call.respondText(response)
+            Result.runCatching {
+                httpClient.get<String>("$veilarbregistreringBaseUrl$path") {
+                    header("Authorization", "Bearer $accessToken")
+                }
+            }.fold(
+                onSuccess = {
+                    logger.info("Respons fra veilarbregistrering med path $path: $it")
+                    call.respondText(it)
+                },
+                onFailure = {
+                    logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
+                    call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
+                }
+            )
         }
     }
 }

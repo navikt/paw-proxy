@@ -2,12 +2,11 @@ package no.nav.pawproxy.arena
 
 import io.ktor.application.*
 import io.ktor.client.*
-import io.ktor.client.features.*
 import io.ktor.client.request.*
-import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.app.get
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.oauth2.TokenService
@@ -43,10 +42,3 @@ fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
     }
 }
 
-fun exceptionToStatusCode(e: Throwable): HttpStatusCode =
-    when (e) {
-        is RedirectResponseException -> e.response.status
-        is ClientRequestException -> e.response.status
-        is ServerResponseException -> e.response.status
-        else -> HttpStatusCode.InternalServerError
-    }

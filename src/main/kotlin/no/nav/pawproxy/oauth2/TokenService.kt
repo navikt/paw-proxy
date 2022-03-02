@@ -23,6 +23,7 @@ class TokenService(private val httpClient: HttpClient) {
     private val onBehalfOfTokenClient = OnBehalfOfTokenClient(DefaultOAuth2HttpClient(httpClient))
 
     fun getAccessToken(call: ApplicationCall, api: DownstreamApi): String {
+        logger.info("Henter token for ${api.appName}")
         return call.request.header("Downstream-Authorization")?.let { return it.removePrefix("Bearer ") }
             ?: performGrantRequest(call, api)
     }

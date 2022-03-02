@@ -21,6 +21,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
 
         get {
             val path = call.request.uri
+            logger.info("Fikk inn kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
             Result.runCatching {

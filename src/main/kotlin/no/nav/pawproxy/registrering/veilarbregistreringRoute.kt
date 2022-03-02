@@ -14,6 +14,7 @@ import no.nav.pawproxy.oauth2.veilarbregistrering
 
 
 fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService) {
+    logger.info("Rute mot veilarbregistrering")
 
     route("/veilarbregistrering{...}") {
 

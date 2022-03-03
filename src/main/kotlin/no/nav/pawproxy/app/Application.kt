@@ -33,6 +33,10 @@ fun Application.module() {
         host("www.dev.nav.no", schemes = listOf("https"))
         allowCredentials = true
         header(HttpHeaders.ContentType)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        method(HttpMethod.Options)
+        method(HttpMethod.Post)
+        method(HttpMethod.Get)
     }
 
     install(Authentication) {

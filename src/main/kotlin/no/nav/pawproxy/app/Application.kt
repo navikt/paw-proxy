@@ -30,13 +30,11 @@ fun Application.module() {
     install(DefaultHeaders)
 
     install(CORS) {
-        host("*.nav.no", schemes = listOf("http","https"))
+        anyHost()
         method(HttpMethod.Options)
         method(HttpMethod.Put)
         method(HttpMethod.Delete)
         method(HttpMethod.Patch)
-        method(HttpMethod.Post)
-        method(HttpMethod.Get)
         header(HttpHeaders.Authorization)
         header(HttpHeaders.ContentType)
         header(HttpHeaders.AccessControlAllowOrigin)

@@ -29,6 +29,7 @@ fun Routing.healthApi(healthService: HealthService) {
 
     post("/internal/test") {
         logger.info("Hello post")
+        call.respondText(pingJsonResponse, ContentType.Application.Json)
     }
 }
 

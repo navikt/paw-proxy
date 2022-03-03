@@ -30,13 +30,19 @@ fun Application.module() {
     install(DefaultHeaders)
 
     install(CORS) {
-        host("www.dev.nav.no", schemes = listOf("https"))
-        allowCredentials = true
-        header(HttpHeaders.ContentType)
-        header(HttpHeaders.AccessControlAllowOrigin)
+        host("*.nav.no", schemes = listOf("http","https"))
         method(HttpMethod.Options)
+        method(HttpMethod.Put)
+        method(HttpMethod.Delete)
+        method(HttpMethod.Patch)
         method(HttpMethod.Post)
         method(HttpMethod.Get)
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.ContentType)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        allowNonSimpleContentTypes = true
+        allowCredentials = true
+        allowSameOrigin = true
     }
 
     install(Authentication) {

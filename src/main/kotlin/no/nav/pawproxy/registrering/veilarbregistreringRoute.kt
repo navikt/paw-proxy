@@ -22,7 +22,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
 
         get {
             val path = call.request.uri
-            logger.info("Fikk inn kall til veilarbregistrering med path: $path")
+            logger.info("Fikk inn GET-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
             Result.runCatching {
@@ -43,6 +43,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
 
         post {
             val path = call.request.uri
+            logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
             Result.runCatching {

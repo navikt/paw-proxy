@@ -7,6 +7,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.exceptionToStatusCode
+import no.nav.pawproxy.app.forwardPost
 import no.nav.pawproxy.app.get
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.oauth2.TokenService
@@ -14,7 +15,6 @@ import no.nav.pawproxy.oauth2.veilarbregistrering
 
 
 fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService) {
-    logger.info("Rute mot veilarbregistrering")
 
     route("/veilarbregistrering{...}") {
 
@@ -47,9 +47,8 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
             Result.runCatching {
-                httpClient.post<String>("$veilarbregistreringBaseUrl$path") {
+                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", call.receiveText()) {
                     header("Authorization", "Bearer $accessToken")
-                    body = call.receive()
                 }
             }.fold(
                 onSuccess = {

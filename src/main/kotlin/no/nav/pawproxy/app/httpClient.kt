@@ -5,17 +5,24 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.net.URL
 
-suspend inline fun <reified T> HttpClient.post(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> HttpClient.forwardPost(url: String, forwardedBody: String? = null, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {
-        request {
-            url(url)
-            method = HttpMethod.Post
-            apply(block)
+        if (forwardedBody != null) {
+            request {
+                url(url)
+                method = HttpMethod.Post
+                body = forwardedBody
+                apply(block)
+            }
+        } else {
+            request {
+                url(url)
+                method = HttpMethod.Post
+                apply(block)
+            }
         }
     }
-}
 
 suspend inline fun <reified T> HttpClient.get(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {

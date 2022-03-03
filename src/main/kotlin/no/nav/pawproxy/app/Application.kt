@@ -26,7 +26,6 @@ fun Application.module() {
         discoveryUrl = environment.wellKnownUrl,
         acceptedAudience = listOf(environment.clientId)
     )
-    logger.info("Starter app")
 
     install(DefaultHeaders)
 
@@ -43,7 +42,6 @@ fun Application.module() {
     routing {
         healthApi(appContext.healthService)
 
-        logger.info("Setter opp ruter som skal autentiseres")
         authenticate {
             veilarbregistrering(appContext.internalHttpClient, appContext.tokenService)
             veilarbarena(appContext.internalHttpClient, appContext.tokenService)

@@ -17,7 +17,7 @@ fun Route.helloApi() {
 
         post {
             logger.info("Fikk inn POST-kall til api/test")
-            call.respondText("""{"ping": "POST"}""", ContentType.Application.Json)
+            call.respond(HttpStatusCode.NoContent)
         }
     }
 }

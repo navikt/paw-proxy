@@ -18,6 +18,8 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
 
     route("/veilarbregistrering{...}") {
 
+        logger.info("Innkommende kall til veilarbregistrering")
+
         val veilarbregistreringBaseUrl = "http://veilarbregistrering"
 
         get {

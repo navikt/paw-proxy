@@ -7,10 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.URL
 
-suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispatchers.IO) {
-    request {
-        url("$url")
-        method = HttpMethod.Post
+suspend inline fun <reified T> HttpClient.post(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T = withContext(Dispatchers.IO) {
+    withContext(Dispatchers.IO) {
+        request {
+            url(url)
+            method = HttpMethod.Post
+            apply(block)
+        }
     }
 }
 

@@ -40,5 +40,26 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
                 }
             )
         }
+
+        post {
+            val path = call.request.uri
+            val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
+
+            Result.runCatching {
+                httpClient.post<String>("$veilarbregistreringBaseUrl$path") {
+                    header("Authorization", "Bearer $accessToken")
+                    body = call.receive()
+                }
+            }.fold(
+                onSuccess = {
+                    logger.info("Respons fra veilarbregistrering med path $path: $it")
+                    call.respondText(it)
+                },
+                onFailure = {
+                    logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
+                    call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
+                }
+            )
+        }
     }
 }

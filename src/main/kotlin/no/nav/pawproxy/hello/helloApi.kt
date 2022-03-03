@@ -9,9 +9,15 @@ import no.nav.pawproxy.app.logger
 
 fun Route.helloApi() {
 
-    get("/is-authenticated") {
-        logger.info("User is authenticated")
-        call.respondText("""{ "isAuthenticated": true }""", ContentType.Application.Json)
-        //fetch('https://arbeidssokerregistrering.dev.intern.nav.no/veilarbregistrering/is-authenticated') fra console skal trigge denne koden
+    route("/api/test{...}") {
+        get {
+            logger.info("Fikk inn GET-kall til api/test")
+            call.respondText("""{"ping": "GET"}""", ContentType.Application.Json)
+        }
+
+        post {
+            logger.info("Fikk inn POST-kall til api/test")
+            call.respondText("""{"ping": "POST"}""", ContentType.Application.Json)
+        }
     }
 }

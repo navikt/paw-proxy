@@ -41,11 +41,11 @@ fun Application.module() {
 
     routing {
         healthApi(appContext.healthService)
+        helloApi()
 
         authenticate {
             veilarbregistrering(appContext.internalHttpClient, appContext.tokenService)
             veilarbarena(appContext.internalHttpClient, appContext.tokenService)
-            helloApi()
         }
     }
 

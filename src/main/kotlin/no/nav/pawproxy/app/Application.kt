@@ -39,7 +39,6 @@ fun Application.module() {
         header(HttpHeaders.ContentType)
         header(HttpHeaders.AccessControlAllowOrigin)
         allowNonSimpleContentTypes = true
-        allowCredentials = true
         allowSameOrigin = true
     }
 

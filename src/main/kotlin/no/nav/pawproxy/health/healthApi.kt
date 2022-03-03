@@ -3,8 +3,7 @@ package no.nav.pawproxy.health
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
-import io.ktor.routing.Routing
-import io.ktor.routing.get
+import io.ktor.routing.*
 import no.nav.pawproxy.app.logger
 
 fun Routing.healthApi(healthService: HealthService) {
@@ -26,6 +25,10 @@ fun Routing.healthApi(healthService: HealthService) {
         } else {
             call.respondText(text = "NOTREADY", contentType = ContentType.Text.Plain, status = HttpStatusCode.ServiceUnavailable)
         }
+    }
+
+    post("/internal/test") {
+        logger.info("Hello post")
     }
 }
 

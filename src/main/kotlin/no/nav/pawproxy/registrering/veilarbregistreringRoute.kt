@@ -50,6 +50,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
 
             val body = call.receiveText()
             logger.info("Body: ${body}")
+            logger.info("Headers: ${call.request.headers}")
 
             Result.runCatching {
                 httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", "\"${body}\"") {

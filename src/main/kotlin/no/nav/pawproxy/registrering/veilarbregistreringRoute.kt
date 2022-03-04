@@ -52,7 +52,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Body: ${body}")
 
             Result.runCatching {
-                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", body) {
+                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", "\"${body}\"") {
                     header("Authorization", "Bearer $accessToken")
                     header("NAV_CSRF_PROTECTION", call.request.header("NAV_CSRF_PROTECTION"))
                     contentType(ContentType.Application.Json)

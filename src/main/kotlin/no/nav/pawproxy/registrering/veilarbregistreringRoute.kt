@@ -3,9 +3,11 @@ package no.nav.pawproxy.registrering
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.routing.contentType
 import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.app.forwardPost
 import no.nav.pawproxy.app.get
@@ -49,6 +51,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             Result.runCatching {
                 httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", call.receiveText()) {
                     header("Authorization", "Bearer $accessToken")
+                    contentType(ContentType.Application.Json)
                 }
             }.fold(
                 onSuccess = {

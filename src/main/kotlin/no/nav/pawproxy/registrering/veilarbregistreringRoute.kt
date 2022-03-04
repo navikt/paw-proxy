@@ -48,14 +48,14 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            logger.info("Body: ${call.receiveText()}")
+            val body = call.receiveText()
+            logger.info("Body: ${body}")
 
             Result.runCatching {
-                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", call.receiveText()) {
+                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", body) {
                     header("Authorization", "Bearer $accessToken")
                     header("NAV_CSRF_PROTECTION", call.request.header("NAV_CSRF_PROTECTION"))
                     contentType(ContentType.Application.Json)
-
                 }
             }.fold(
                 onSuccess = {

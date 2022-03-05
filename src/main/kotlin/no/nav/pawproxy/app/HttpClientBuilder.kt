@@ -15,10 +15,7 @@ object HttpClientBuilder {
             install(HttpTimeout)
 
             install(JsonFeature) {
-                serializer = JacksonSerializer {
-                    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                    setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                }
+                serializer = GsonSerializer()
             }
 
             if (setProxy) {

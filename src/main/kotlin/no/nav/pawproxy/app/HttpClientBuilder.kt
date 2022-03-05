@@ -7,6 +7,7 @@ import io.ktor.client.engine.*
 import io.ktor.client.engine.apache.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
+import io.ktor.features.*
 
 object HttpClientBuilder {
 

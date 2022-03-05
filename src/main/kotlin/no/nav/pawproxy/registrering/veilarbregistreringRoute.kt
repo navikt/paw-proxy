@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import io.ktor.application.*
 import io.ktor.client.*
+import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -59,7 +60,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
                 httpClient.post<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     contentType(ContentType.Application.Json)
-                    body = JsonParser.parseString(body_fra_frontend).asJsonObject
+                    body = body_fra_frontend
                 }
             }.fold(
                 onSuccess = {

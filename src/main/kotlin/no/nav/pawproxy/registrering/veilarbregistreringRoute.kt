@@ -13,6 +13,7 @@ import io.ktor.routing.*
 import io.ktor.routing.contentType
 import io.ktor.util.*
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.app.forward_post
 import no.nav.pawproxy.app.get
@@ -53,7 +54,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            val body_fra_frontend = call.receive<Json>()
+            val body_fra_frontend = call.receive<JsonObject>()
             logger.info("Body: $body_fra_frontend")
             logger.info("Headers: ${call.request.headers.entries()}")
 

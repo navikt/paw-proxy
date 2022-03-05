@@ -14,6 +14,7 @@ import io.ktor.routing.contentType
 import io.ktor.util.*
 import kotlinx.serialization.json.Json
 import no.nav.pawproxy.app.exceptionToStatusCode
+import no.nav.pawproxy.app.forward_post
 import no.nav.pawproxy.app.get
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.oauth2.TokenService
@@ -57,7 +58,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Headers: ${call.request.headers.entries()}")
 
             Result.runCatching {
-                httpClient.post<String>("$veilarbregistreringBaseUrl$path") {
+                httpClient.forward_post<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     body = body_fra_frontend
                 }

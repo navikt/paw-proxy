@@ -1,5 +1,7 @@
 package no.nav.pawproxy.registrering
 
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -50,14 +52,15 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            val body = call.receiveText()
-            logger.info("Body: ${body}")
+            val body_fra_frontend = call.receiveText()
+            logger.info("Body: ${body_fra_frontend}")
             logger.info("Headers: ${call.request.headers.entries()}")
 
             Result.runCatching {
-                httpClient.forwardPost<Json>("$veilarbregistreringBaseUrl$path", body) {
+                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     contentType(ContentType.Application.Json)
+                    body = JsonParser.parseString(body_fra_frontend).asJsonObject
                 }
             }.fold(
                 onSuccess = {

@@ -6,22 +6,13 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-suspend inline fun <reified T> HttpClient.forwardPost(url: String, forwardedBody: String? = null, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
+suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {
-        if (forwardedBody != null) {
-            request {
-                url(url)
-                method = HttpMethod.Post
-                body = forwardedBody
-                apply(block)
-            }
-        } else {
             request {
                 url(url)
                 method = HttpMethod.Post
                 apply(block)
             }
-        }
     }
 
 suspend inline fun <reified T> HttpClient.get(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =

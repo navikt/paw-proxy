@@ -90,6 +90,11 @@
             <artifactId>token-client-core</artifactId>
             <version>${tokenSupport.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-gson</artifactId>
+            <version>1.6.7</version>
+        </dependency>
     </dependencies>
 
     <build>

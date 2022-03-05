@@ -8,9 +8,10 @@ import kotlinx.coroutines.withContext
 
 suspend inline fun <reified T> HttpClient.post(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {
-            request {
+            request<T> {
                 url(url)
                 method = HttpMethod.Post
+                contentType(ContentType.Application.Json)
                 apply(block)
             }
     }

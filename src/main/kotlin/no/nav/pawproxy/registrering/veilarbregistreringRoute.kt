@@ -52,14 +52,13 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            val body_fra_frontend = call.receiveText()
+            val body_fra_frontend = call.receiveText().trimEnd('\'',')').trimStart('(','\'')
             logger.info("Body: $body_fra_frontend")
             logger.info("Headers: ${call.request.headers.entries()}")
 
             Result.runCatching {
                 httpClient.post<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
-                    contentType(ContentType.Application.Json)
                     body = body_fra_frontend
                 }
             }.fold(

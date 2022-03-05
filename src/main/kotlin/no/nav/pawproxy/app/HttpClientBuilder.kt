@@ -15,6 +15,17 @@ object HttpClientBuilder {
         return HttpClient(Apache) {
             install(HttpTimeout)
 
+            Charsets {
+                // Allow using `UTF_8`.
+                register(Charsets.UTF_8)
+
+                // Specify Charset to send request(if no charset in request headers).
+                sendCharset = Charsets.UTF_8
+
+                // Specify Charset to receiveee response(if no charset in response headers).
+                responseCharsetFallback = Charsets.UTF_8
+            }
+
             install(JsonFeature) {
                 serializer = JacksonSerializer {
                     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

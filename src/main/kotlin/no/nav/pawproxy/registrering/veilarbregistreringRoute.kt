@@ -8,6 +8,8 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.routing.contentType
+import io.ktor.util.*
+import kotlinx.serialization.json.Json
 import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.app.forwardPost
 import no.nav.pawproxy.app.get
@@ -50,18 +52,17 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
 
             val body = call.receiveText()
             logger.info("Body: ${body}")
-            logger.info("Headers: ${call.request.headers}")
+            logger.info("Headers: ${call.request.headers.entries()}")
 
             Result.runCatching {
-                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path", "\"${body}\"") {
+                httpClient.forwardPost<Json>("$veilarbregistreringBaseUrl$path", body) {
                     header("Authorization", "Bearer $accessToken")
-                    header("NAV_CSRF_PROTECTION", call.request.header("NAV_CSRF_PROTECTION"))
                     contentType(ContentType.Application.Json)
                 }
             }.fold(
                 onSuccess = {
                     logger.info("Respons fra veilarbregistrering med path $path: $it")
-                    call.respondText(it)
+                    call.respondText(it.toString())
                 },
                 onFailure = {
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")

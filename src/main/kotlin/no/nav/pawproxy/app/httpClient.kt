@@ -11,7 +11,7 @@ suspend inline fun <reified T> HttpClient.forward_post(url: String, crossinline 
             request<T> {
                 url(url)
                 method = HttpMethod.Post
-                contentType(ContentType.Application.Json)
+                contentType(ContentType.Application.Any)
                 apply(block)
             }
     }

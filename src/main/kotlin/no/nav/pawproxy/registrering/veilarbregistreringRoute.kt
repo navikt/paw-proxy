@@ -1,5 +1,6 @@
 package no.nav.pawproxy.registrering
 
+import com.fasterxml.jackson.databind.JsonNode
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -46,7 +47,7 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            val bodyFraFrontend = call.receive<String>()
+            val bodyFraFrontend = call.receive<JsonNode>()
             logger.info("Body: $bodyFraFrontend")
             logger.info("Headers: ${call.request.headers.entries().map { "${it.key}: ${it.value}" }}")
 

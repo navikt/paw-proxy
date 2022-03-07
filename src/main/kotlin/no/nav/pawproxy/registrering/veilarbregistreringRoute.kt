@@ -46,8 +46,8 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             logger.info("Fikk inn POST-kall til veilarbregistrering med path: $path")
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
-            val bodyFraFrontend = call.receive<ByteArray>()
-            //logger.info("Body: $bodyFraFrontend")
+            val bodyFraFrontend = call.receive<String>()
+            logger.info("Body: $bodyFraFrontend")
             logger.info("Headers: ${call.request.headers.entries().map { "${it.key}: ${it.value}" }}")
 
             Result.runCatching {

@@ -6,9 +6,9 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-suspend inline fun <reified T> HttpClient.forward_post(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
+suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {
-            request<T> {
+            request {
                 url(url)
                 method = HttpMethod.Post
                 contentType(ContentType.Application.Json)

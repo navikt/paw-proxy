@@ -3,11 +3,10 @@ package no.nav.pawproxy.app
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.client.*
-import io.ktor.client.features.json.*
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.jackson.*
 import io.ktor.routing.*
-import io.ktor.serialization.*
 import io.ktor.server.netty.*
 import no.nav.pawproxy.arena.veilarbarena
 import no.nav.pawproxy.health.healthApi
@@ -49,10 +48,7 @@ fun Application.module() {
     }
 
     install(ContentNegotiation) {
-        json(kotlinx.serialization.json.Json {
-            prettyPrint = true
-            isLenient = true
-        })
+        jackson()
     }
 
     routing {

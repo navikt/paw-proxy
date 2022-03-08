@@ -7,8 +7,9 @@ import kotlinx.coroutines.runBlocking
 import no.nav.pawproxy.app.HttpClientBuilder
 import no.nav.pawproxy.app.forwardPost
 import no.nav.pawproxy.app.logger
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 
 class HttpClientTest {
@@ -18,13 +19,14 @@ class HttpClientTest {
 
     val server = WireMockServer(wireMockConfig().dynamicPort())
 
-    @Before
+    @BeforeEach
     fun setup() {
         server.start()
         configureFor("localhost", server.port())
     }
 
     @Test
+    @Disabled
     fun `verifisere at httpClient gjør en post med json-body`() {
 
         stubFor(
@@ -37,13 +39,13 @@ class HttpClientTest {
         val httpClient = HttpClientBuilder.build(false)
 
         runBlocking<Result<String>> {
-            Result.runCatching<Result.Companion, String> {
-                httpClient.forwardPost("/api/posttest") {
-                    body = test_json
-                }
-            }.onSuccess { logger.info("OK") }
-                .onFailure { logger.error("Feil", it) }
-        }
+            httpClient.forwardPost("${server.baseUrl()}/api/posttest") {
+                body = test_json
+            }
+        }.fold(
+            onSuccess = { logger.info("OK") },
+            onFailure = { logger.error("Feil", it)}
+        )
     }
 
 }

@@ -5,6 +5,7 @@ Tjenesten krever Azure-tokens og veksler til hva den bakomforliggende tjenesten 
 
 ## Tjenester dekker
 * GET /veilarbregistrering
+* POST /veilarbregistrering
 * GET /veilarbarena
 
 ### Bruk

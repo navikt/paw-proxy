@@ -6,7 +6,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.logger
 
-fun Routing.healthApi(healthService: HealthService) {
+fun Routing.healthRoute(healthService: HealthService) {
 
     val pingJsonResponse = """{"ping": "pong"}"""
 
@@ -25,11 +25,6 @@ fun Routing.healthApi(healthService: HealthService) {
         } else {
             call.respondText(text = "NOTREADY", contentType = ContentType.Text.Plain, status = HttpStatusCode.ServiceUnavailable)
         }
-    }
-
-    post("/internal/test") {
-        logger.info("Hello post")
-        call.respondText(pingJsonResponse, ContentType.Application.Json)
     }
 }
 

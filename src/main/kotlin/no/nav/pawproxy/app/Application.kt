@@ -9,8 +9,7 @@ import io.ktor.jackson.*
 import io.ktor.routing.*
 import io.ktor.server.netty.*
 import no.nav.pawproxy.arena.veilarbarena
-import no.nav.pawproxy.health.healthApi
-import no.nav.pawproxy.hello.helloApi
+import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.registrering.veilarbregistrering
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
@@ -38,8 +37,6 @@ fun Application.module() {
         method(HttpMethod.Patch)
         header(HttpHeaders.Authorization)
         header(HttpHeaders.ContentType)
-        header(HttpHeaders.AccessControlAllowOrigin)
-        allowNonSimpleContentTypes = true
         allowSameOrigin = true
     }
 
@@ -52,8 +49,7 @@ fun Application.module() {
     }
 
     routing {
-        healthApi(appContext.healthService)
-        helloApi()
+        healthRoute(appContext.healthService)
 
         authenticate {
             veilarbregistrering(appContext.internalHttpClient, appContext.tokenService)

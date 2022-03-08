@@ -21,6 +21,7 @@
     </properties>
 
     <dependencies>
+        <!-- Ktor -->
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-server-core</artifactId>
@@ -63,6 +64,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Diverse -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -78,13 +80,8 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.33</version>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
 
+        <!-- NAV -->
         <dependency>
             <groupId>no.nav.security</groupId>
             <artifactId>token-validation-ktor</artifactId>
@@ -95,15 +92,18 @@
             <artifactId>token-client-core</artifactId>
             <version>${tokenSupport.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-client-gson</artifactId>
-            <version>1.6.7</version>
-        </dependency>
+
+        <!-- Test -->
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
             <version>2.27.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test-junit</artifactId>
+            <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

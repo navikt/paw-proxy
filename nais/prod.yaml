@@ -48,3 +48,5 @@ spec:
     outbound:
       rules:
         - application: veilarbregistrering
+        - application: veilarboppfolging
+          namespace: pto

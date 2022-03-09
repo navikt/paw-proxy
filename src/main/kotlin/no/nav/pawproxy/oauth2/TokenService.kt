@@ -63,3 +63,4 @@ data class DownstreamApi(val cluster: String, val namespace: String, val appName
 
 val veilarbregistrering = DownstreamApi(requireClusterName(), requireNamespace(), "veilarbregistrering")
 val veilarbarena = DownstreamApi(requireClusterName(), "pto", "veilarbarena")
+val veilarboppfolging = DownstreamApi(requireClusterName(), "pto", "veilarboppfolging")

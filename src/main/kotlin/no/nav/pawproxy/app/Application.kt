@@ -13,6 +13,7 @@ import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolging
 import no.nav.pawproxy.person.veilarbperson
 import no.nav.pawproxy.registrering.veilarbregistrering
+import no.nav.pawproxy.veileder.veilarbveileder
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -58,6 +59,7 @@ fun Application.module() {
             veilarbarena(appContext.internalHttpClient, appContext.tokenService)
             veilarboppfolging(appContext.internalHttpClient, appContext.tokenService)
             veilarbperson(appContext.internalHttpClient, appContext.tokenService)
+            veilarbveileder(appContext.internalHttpClient, appContext.tokenService)
         }
     }
 

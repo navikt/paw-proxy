@@ -52,3 +52,5 @@ spec:
           namespace: pto
         - application: veilarbperson
           namespace: pto
+        - application: veilarbveileder
+          namespace: pto

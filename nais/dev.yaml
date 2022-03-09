@@ -50,3 +50,5 @@ spec:
         - application: veilarbregistrering
         - application: veilarboppfolging
           namespace: pto
+        - application: veilarbperson
+          namespace: pto

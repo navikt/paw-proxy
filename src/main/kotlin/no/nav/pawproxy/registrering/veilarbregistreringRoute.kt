@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.client.response.*
+import io.ktor.client.statement.HttpResponse
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -48,14 +50,14 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             val bodyFraFrontend = call.receive<JsonNode>()
 
             Result.runCatching {
-                httpClient.forwardPost<HttpResponseData>("$veilarbregistreringBaseUrl$path") {
+                httpClient.forwardPost<HttpResponse>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     body = bodyFraFrontend
                 }
             }.fold(
                 onSuccess = {
                     logger.info("Respons fra veilarbregistrering med path $path: $it")
-                    call.respond(it.statusCode, it.body)
+                    call.respond(it.status, it.content)
                 },
                 onFailure = {
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")

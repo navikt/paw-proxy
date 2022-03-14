@@ -48,14 +48,14 @@ fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService
             val bodyFraFrontend = call.receive<JsonNode>()
 
             Result.runCatching {
-                httpClient.forwardPost<String>("$veilarbregistreringBaseUrl$path") {
+                httpClient.forwardPost<HttpResponseData>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     body = bodyFraFrontend
                 }
             }.fold(
                 onSuccess = {
                     logger.info("Respons fra veilarbregistrering med path $path: $it")
-                    call.respondText(it)
+                    call.respond(it.statusCode, it.body)
                 },
                 onFailure = {
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")

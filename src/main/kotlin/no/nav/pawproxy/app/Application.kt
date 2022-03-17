@@ -6,6 +6,7 @@ import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
+import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.server.netty.*
 import no.nav.pawproxy.arena.veilarbarena
@@ -17,6 +18,7 @@ import no.nav.pawproxy.veileder.veilarbveileder
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
 import no.nav.security.token.support.ktor.tokenValidationSupport
+import java.util.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -31,6 +33,32 @@ fun Application.module() {
     )
 
     install(DefaultHeaders)
+
+
+    install(CallId) {
+        retrieve { call ->
+            listOf(
+                HttpHeaders.XCorrelationId,
+                "Nav-Call-Id",
+                "Nav-CallId"
+            ).firstNotNullOfOrNull { call.request.header(it) }
+        }
+
+        generate {
+            UUID.randomUUID().toString()
+        }
+
+        verify { callId: String ->
+            callId.isNotEmpty()
+        }
+    }
+
+    install(CallLogging) {
+        callIdMdc("correlation_id")
+
+        mdc("request_id") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
+    }
+
 
     install(CORS) {
         anyHost()

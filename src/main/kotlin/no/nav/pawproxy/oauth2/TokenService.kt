@@ -17,15 +17,25 @@ import no.nav.security.token.support.client.core.oauth2.OnBehalfOfTokenClient
 import java.net.URI
 import java.util.*
 
+/**
+ * TokenService har som oppgave å hente ut token for videre kall bakover i verdikjeden. Hvis riktig token allerede
+ * eksisterer, benyttes dette - hvis ikke veksles dette inn med et OBO-token (On behalf of).
+ */
 class TokenService(private val httpClient: HttpClient) {
     private val tokenEndpointUrl: URI = URI.create(requireProperty("AZURE_OPENID_CONFIG_TOKEN_ENDPOINT"))
     private val discoveryUrl: URI = URI.create(requireProperty("AZURE_APP_WELL_KNOWN_URL"))
     private val onBehalfOfTokenClient = OnBehalfOfTokenClient(DefaultOAuth2HttpClient(httpClient))
 
-    fun getAccessToken(call: ApplicationCall, api: DownstreamApi): String {
-        logger.info("Henter token for ${api.appName}")
-        return call.request.header("Downstream-Authorization")?.let { return it.removePrefix("Bearer ") }
-            ?: performGrantRequest(call, api)
+    /**
+     * Henter token for utgående API-kall
+     *
+     * Forventer å finne token i `Downstream-Authorization`-header. Hvis den ikke finnes, benytter den
+     * OBO-klienten (On behalf of) for å veksle inn token.
+     */
+    fun getAccessToken(incommingCall: ApplicationCall, outgoingApi: DownstreamApi): String {
+        logger.info("Henter token for ${outgoingApi.appName}")
+        return incommingCall.request.header("Downstream-Authorization")?.let { return it.removePrefix("Bearer ") }
+            ?: performGrantRequest(incommingCall, outgoingApi)
     }
 
     private fun performGrantRequest(call: ApplicationCall, api: DownstreamApi): String {

@@ -1,4 +1,4 @@
-package no.nav.pawproxy.app
+package no.nav.pawproxy.http
 
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -8,12 +8,12 @@ import kotlinx.coroutines.withContext
 
 suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {
-            request {
-                url(url)
-                method = HttpMethod.Post
-                contentType(ContentType.Application.Json)
-                apply(block)
-            }
+        request {
+            url(url)
+            method = HttpMethod.Post
+            contentType(ContentType.Application.Json)
+            apply(block)
+        }
     }
 
 suspend inline fun <reified T> HttpClient.get(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =

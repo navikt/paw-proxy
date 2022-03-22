@@ -4,8 +4,8 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import kotlinx.coroutines.runBlocking
-import no.nav.pawproxy.app.HttpClientBuilder
-import no.nav.pawproxy.app.forwardPost
+import no.nav.pawproxy.http.HttpClientBuilder
+import no.nav.pawproxy.http.forwardPost
 import no.nav.pawproxy.app.logger
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled

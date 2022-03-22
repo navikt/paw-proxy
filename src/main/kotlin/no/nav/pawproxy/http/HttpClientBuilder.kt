@@ -1,4 +1,4 @@
-package no.nav.pawproxy.app
+package no.nav.pawproxy.http
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -7,7 +7,7 @@ import io.ktor.client.engine.*
 import io.ktor.client.engine.apache.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
-import io.ktor.features.*
+import no.nav.pawproxy.app.requireProperty
 
 object HttpClientBuilder {
 

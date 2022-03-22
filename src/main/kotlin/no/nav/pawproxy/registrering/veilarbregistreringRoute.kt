@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
-import io.ktor.client.response.*
 import io.ktor.client.statement.*
 import io.ktor.client.statement.HttpResponse
 import io.ktor.request.*
@@ -18,7 +17,7 @@ import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbregistrering
 
 
-fun Route.veilarbregistrering(httpClient: HttpClient, tokenService: TokenService) {
+fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenService) {
 
     route("/veilarbregistrering{...}") {
 

@@ -9,12 +9,12 @@ import io.ktor.jackson.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.server.netty.*
-import no.nav.pawproxy.arena.veilarbarena
+import no.nav.pawproxy.arena.veilarbarenaRoute
 import no.nav.pawproxy.health.healthRoute
-import no.nav.pawproxy.oppfolging.veilarboppfolging
-import no.nav.pawproxy.person.veilarbperson
-import no.nav.pawproxy.registrering.veilarbregistrering
-import no.nav.pawproxy.veileder.veilarbveileder
+import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
+import no.nav.pawproxy.person.veilarbpersonRoute
+import no.nav.pawproxy.registrering.veilarbregistreringRoute
+import no.nav.pawproxy.veileder.veilarbveilederRoute
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -33,7 +33,6 @@ fun Application.module() {
     )
 
     install(DefaultHeaders)
-
 
     install(CallId) {
         retrieve { call ->
@@ -59,7 +58,6 @@ fun Application.module() {
         mdc("request_id") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
     }
 
-
     install(CORS) {
         anyHost()
         method(HttpMethod.Options)
@@ -83,11 +81,11 @@ fun Application.module() {
         healthRoute(appContext.healthService)
 
         authenticate {
-            veilarbregistrering(appContext.internalHttpClient, appContext.tokenService)
-            veilarbarena(appContext.internalHttpClient, appContext.tokenService)
-            veilarboppfolging(appContext.internalHttpClient, appContext.tokenService)
-            veilarbperson(appContext.internalHttpClient, appContext.tokenService)
-            veilarbveileder(appContext.internalHttpClient, appContext.tokenService)
+            veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
+            veilarbarenaRoute(appContext.internalHttpClient, appContext.tokenService)
+            veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)
+            veilarbpersonRoute(appContext.internalHttpClient, appContext.tokenService)
+            veilarbveilederRoute(appContext.internalHttpClient, appContext.tokenService)
         }
     }
 

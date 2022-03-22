@@ -13,7 +13,7 @@ import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbarena
 
 
-fun Route.veilarbarena(httpClient: HttpClient, tokenService: TokenService) {
+fun Route.veilarbarenaRoute(httpClient: HttpClient, tokenService: TokenService) {
 
     route("/veilarbarena{...}") {
 

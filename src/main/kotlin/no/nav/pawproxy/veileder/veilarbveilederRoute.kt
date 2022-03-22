@@ -13,7 +13,7 @@ import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbveileder
 
 
-fun Route.veilarbveileder(httpClient: HttpClient, tokenService: TokenService) {
+fun Route.veilarbveilederRoute(httpClient: HttpClient, tokenService: TokenService) {
 
     route("/veilarbveileder{...}") {
 

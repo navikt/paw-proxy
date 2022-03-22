@@ -10,11 +10,10 @@ import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.app.get
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.oauth2.TokenService
-import no.nav.pawproxy.oauth2.veilarbarena
 import no.nav.pawproxy.oauth2.veilarboppfolging
 
 
-fun Route.veilarboppfolging(httpClient: HttpClient, tokenService: TokenService) {
+fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenService) {
 
     route("/veilarboppfolging{...}") {
 

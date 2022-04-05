@@ -6,6 +6,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.client.statement.HttpResponse
+import io.ktor.features.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -30,6 +31,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
             Result.runCatching {
                 httpClient.get<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
+                    call.callId?.let {
+                        header("Nav-Call-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

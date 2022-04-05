@@ -53,9 +53,9 @@ fun Application.module() {
     }
 
     install(CallLogging) {
-        callIdMdc("correlation_id")
+        callIdMdc("callId")
 
-        mdc("request_id") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
+        mdc("requestId") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
     }
 
     install(CORS) {

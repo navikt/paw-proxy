@@ -3,6 +3,7 @@ package no.nav.pawproxy.arena
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.features.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -27,6 +28,9 @@ fun Route.veilarbarenaRoute(httpClient: HttpClient, tokenService: TokenService) 
                 httpClient.get<String>("$veilarbarenaBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     header("Nav-Consumer-Id", "veilarbregistrering")
+                    call.callId?.let {
+                        header("Nav-Call-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

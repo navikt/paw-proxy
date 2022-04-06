@@ -56,6 +56,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
             Result.runCatching {
                 httpClient.forwardPost<HttpResponse>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
+                    call.callId?.let {
+                        header("Nav-Call-Id", it)
+                    }
                     body = bodyFraFrontend
                 }
             }.fold(

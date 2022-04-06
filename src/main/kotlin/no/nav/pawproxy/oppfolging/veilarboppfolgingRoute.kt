@@ -3,6 +3,7 @@ package no.nav.pawproxy.oppfolging
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.features.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -27,6 +28,9 @@ fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenServ
                 httpClient.get<String>("$veilarboppfolgingBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     header("Nav-Consumer-Id", "arbeidssokerregistrering-veileder")
+                    call.callId?.let {
+                        header("Nav-Call-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

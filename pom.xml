@@ -86,6 +86,11 @@
             <artifactId>token-client-core</artifactId>
             <version>${tokenSupport.version}</version>
         </dependency>
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>log</artifactId>
+            <version>2.2022.04.01_08.27-cbfeb0be0ee0</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>

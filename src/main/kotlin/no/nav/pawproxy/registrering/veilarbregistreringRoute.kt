@@ -69,9 +69,8 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                 },
                 onFailure = {
                     val exception = it as ResponseException
-                    logger.info("Feil i POST mot veilarbregistrering. Statuskode: ${exception.response.status}, body: ${exception.response.readBytes()}")
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
-                    call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
+                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
                 }
             )
         }

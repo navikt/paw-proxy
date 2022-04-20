@@ -3,6 +3,7 @@ package no.nav.pawproxy.registrering
 import com.fasterxml.jackson.databind.JsonNode
 import io.ktor.application.*
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.client.statement.HttpResponse
@@ -67,6 +68,8 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                     call.respondBytes(bytes = it.readBytes(), status = it.status)
                 },
                 onFailure = {
+                    val exception = it as ResponseException
+                    logger.info("Feil i POST mot veilarbregistrering. Statuskode: ${exception.response.status}, body: ${exception.response.readBytes()}")
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
                     call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
                 }

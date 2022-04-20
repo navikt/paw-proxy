@@ -64,7 +64,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
             }.fold(
                 onSuccess = {
                     logger.info("Respons fra veilarbregistrering med path $path: $it")
-                    call.respond(it.status, it.readBytes().toString())
+                    val body = it.readBytes().toString()
+                    logger.info("POST veilarbregistrering: Body som sendes videre: $body")
+                    call.respond(it.status, body)
                 },
                 onFailure = {
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")

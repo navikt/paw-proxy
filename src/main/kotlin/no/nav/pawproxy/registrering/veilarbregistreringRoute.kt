@@ -42,8 +42,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                     call.respondText(it)
                 },
                 onFailure = {
+                    val exception = it as ResponseException
                     logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
-                    call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
+                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
                 }
             )
         }

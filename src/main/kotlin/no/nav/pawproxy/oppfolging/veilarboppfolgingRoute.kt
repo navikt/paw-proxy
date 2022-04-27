@@ -2,14 +2,15 @@ package no.nav.pawproxy.oppfolging
 
 import io.ktor.application.*
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.features.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import no.nav.pawproxy.app.exceptionToStatusCode
-import no.nav.pawproxy.http.get
 import no.nav.pawproxy.app.logger
+import no.nav.pawproxy.http.get
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarboppfolging
 
@@ -38,8 +39,9 @@ fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenServ
                     call.respondText(it)
                 },
                 onFailure = {
+                    val exception = it as ResponseException
                     logger.warn("Feil mot veilarboppfolging med path $path: ${it.message}")
-                    call.respond(exceptionToStatusCode(it), it.message ?: "Uventet feil")
+                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
                 }
             )
         }

@@ -11,7 +11,6 @@ import io.ktor.features.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import no.nav.pawproxy.app.exceptionToStatusCode
 import no.nav.pawproxy.http.forwardPost
 import no.nav.pawproxy.http.get
 import no.nav.pawproxy.app.logger

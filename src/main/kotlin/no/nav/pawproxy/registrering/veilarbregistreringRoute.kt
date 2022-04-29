@@ -14,6 +14,7 @@ import io.ktor.routing.*
 import no.nav.pawproxy.http.forwardPost
 import no.nav.pawproxy.http.get
 import no.nav.pawproxy.app.logger
+import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbregistrering
 
@@ -22,7 +23,7 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
 
     route("/veilarbregistrering{...}") {
 
-        val veilarbregistreringBaseUrl = "http://veilarbregistrering"
+        val veilarbregistreringBaseUrl = requireProperty("VEILARBREGISTRERING_URL")
 
         get {
             val path = call.request.uri

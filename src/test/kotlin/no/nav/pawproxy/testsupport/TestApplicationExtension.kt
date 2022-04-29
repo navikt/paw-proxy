@@ -5,6 +5,7 @@ import io.ktor.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.testing.*
 import no.nav.pawproxy.app.module
+import no.nav.pawproxy.registrering.veilarbregistreringUrl
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.api.extension.ParameterResolver
@@ -23,6 +24,7 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("NAIS_NAMESPACE", "paw")
         System.setProperty("HTTP_PROXY", wiremockEnvironment.wireMockServer.baseUrl())
         System.setProperty("NAIS_NAMESPACE", "paw")
+        System.setProperty("VEILARBREGISTRERING_URL", wiremockEnvironment.wireMockServer.veilarbregistreringUrl())
     }
 
     private val testApplicationEngine = TestApplicationEngine(

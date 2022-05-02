@@ -50,8 +50,7 @@ class WireMockBuilder {
     }
 
     fun build() : WireMockServer {
-        if (port == null) config.dynamicPort()
-        else config.port(port!!)
+        if (port == null) config.dynamicPort() else config.port(port!!)
 
         configFunction?.invoke(config)
         val server = WireMockServer(config)

@@ -1,5 +1,6 @@
 package no.nav.pawproxy.testsupport
 
+import com.github.tomakehurst.wiremock.WireMockServer
 import com.typesafe.config.ConfigFactory
 import io.ktor.config.*
 import io.ktor.server.engine.*
@@ -45,7 +46,7 @@ internal class TestApplicationExtension: ParameterResolver {
 
     private val støttedeParametre = listOf(
         TestApplicationEngine::class.java,
-        WiremockEnvironment::class
+        WireMockServer::class.java
     )
 
     init {

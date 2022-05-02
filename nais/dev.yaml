@@ -31,6 +31,8 @@ spec:
       value: dev.nav.no
     - name: VEILARBREGISTRERING_URL
       value: http://veilarbregistrering
+    - name: VEILARBOPPFOLGING_URL
+      value: http://veilarboppfolging.pto.svc.nais.local
   resources:
     limits:
       cpu: "1"

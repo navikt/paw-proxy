@@ -1,5 +1,6 @@
 package no.nav.pawproxy.testsupport
 
+import no.nav.pawproxy.oppfolging.stubVeilarboppfolging
 import no.nav.pawproxy.registrering.stubVeilarbregistrering
 
 internal class WiremockEnvironment(
@@ -11,6 +12,7 @@ internal class WiremockEnvironment(
         .withAzureSupport()
         .build()
         .stubVeilarbregistrering()
+        .stubVeilarboppfolging()
 
     internal fun start() = this
 

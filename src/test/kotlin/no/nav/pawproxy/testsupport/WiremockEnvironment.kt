@@ -4,6 +4,7 @@ import no.nav.pawproxy.arena.stubVeilarbarena
 import no.nav.pawproxy.oppfolging.stubVeilarboppfolging
 import no.nav.pawproxy.person.stubVeilarbperson
 import no.nav.pawproxy.registrering.stubVeilarbregistrering
+import no.nav.pawproxy.veileder.stubVeilarbveileder
 
 internal class WiremockEnvironment(
     wireMockPort: Int = 8082
@@ -17,6 +18,7 @@ internal class WiremockEnvironment(
         .stubVeilarboppfolging()
         .stubVeilarbperson()
         .stubVeilarbarena()
+        .stubVeilarbveileder()
 
     internal fun start() = this
 

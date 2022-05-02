@@ -11,6 +11,7 @@ import no.nav.pawproxy.oppfolging.veilarboppfolgingUrl
 import no.nav.pawproxy.person.veilarbpersonUrl
 import no.nav.pawproxy.registrering.veilarbregistreringUrl
 import no.nav.pawproxy.testsupport.azure.Azure
+import no.nav.pawproxy.veileder.veilarbveilederUrl
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.api.extension.ParameterResolver
@@ -33,6 +34,7 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("VEILARBOPPFOLGING_URL", wiremockEnvironment.wireMockServer.veilarboppfolgingUrl())
         System.setProperty("VEILARBPERSON_URL", wiremockEnvironment.wireMockServer.veilarbpersonUrl())
         System.setProperty("VEILARBARENA_URL", wiremockEnvironment.wireMockServer.veilarbarenaUrl())
+        System.setProperty("VEILARBVEILEDER_URL", wiremockEnvironment.wireMockServer.veilarbveilederUrl())
     }
 
     private val testApplicationEngine = TestApplicationEngine(

@@ -5,6 +5,7 @@ import io.ktor.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.testing.*
 import no.nav.pawproxy.app.module
+import no.nav.pawproxy.arena.veilarbarenaUrl
 import no.nav.pawproxy.oppfolging.veilarboppfolgingUrl
 import no.nav.pawproxy.person.veilarbpersonUrl
 import no.nav.pawproxy.registrering.veilarbregistreringUrl
@@ -30,6 +31,7 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("VEILARBREGISTRERING_URL", wiremockEnvironment.wireMockServer.veilarbregistreringUrl())
         System.setProperty("VEILARBOPPFOLGING_URL", wiremockEnvironment.wireMockServer.veilarboppfolgingUrl())
         System.setProperty("VEILARBPERSON_URL", wiremockEnvironment.wireMockServer.veilarbpersonUrl())
+        System.setProperty("VEILARBARENA_URL", wiremockEnvironment.wireMockServer.veilarbarenaUrl())
     }
 
     private val testApplicationEngine = TestApplicationEngine(

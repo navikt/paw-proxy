@@ -1,5 +1,6 @@
 package no.nav.pawproxy.testsupport
 
+import no.nav.pawproxy.arena.stubVeilarbarena
 import no.nav.pawproxy.oppfolging.stubVeilarboppfolging
 import no.nav.pawproxy.person.stubVeilarbperson
 import no.nav.pawproxy.registrering.stubVeilarbregistrering
@@ -15,6 +16,7 @@ internal class WiremockEnvironment(
         .stubVeilarbregistrering()
         .stubVeilarboppfolging()
         .stubVeilarbperson()
+        .stubVeilarbarena()
 
     internal fun start() = this
 

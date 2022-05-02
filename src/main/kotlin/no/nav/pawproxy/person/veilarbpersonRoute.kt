@@ -10,6 +10,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.logger
+import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbperson
@@ -19,7 +20,7 @@ fun Route.veilarbpersonRoute(httpClient: HttpClient, tokenService: TokenService)
 
     route("/veilarbperson{...}") {
 
-        val veilarbpersonBaseUrl = "http://veilarbperson.pto.svc.nais.local"
+        val veilarbpersonBaseUrl = requireProperty("VEILARBPERSON_URL")
 
         get {
             val path = call.request.uri

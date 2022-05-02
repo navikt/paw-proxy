@@ -1,10 +1,8 @@
-package no.nav.pawproxy.testsupport
+package no.nav.pawproxy.testsupport.azure
 
 import java.util.*
 
 object Azure {
-    private const val accessAsApplicationRole = "access_as_application"
-
     enum class ClientAuthenticationMode(val claimValue: String) {
         PUBLIC("0"),
         CLIENT_SECRET("1"),
@@ -55,7 +53,7 @@ object Azure {
                 putIfAbsent("groups", groups)
                 putIfAbsent(
                     "roles", when (accessAsApplication) {
-                        true -> roles.plus(accessAsApplicationRole)
+                        true -> roles.plus("access_as_application")
                         false -> roles
                     }
                 )

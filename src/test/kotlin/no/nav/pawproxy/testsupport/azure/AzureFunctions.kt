@@ -1,4 +1,4 @@
-package no.nav.pawproxy.testsupport
+package no.nav.pawproxy.testsupport.azure
 
 import io.ktor.http.*
 import io.ktor.server.testing.*

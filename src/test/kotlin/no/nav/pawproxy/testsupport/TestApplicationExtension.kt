@@ -6,7 +6,9 @@ import io.ktor.server.engine.*
 import io.ktor.server.testing.*
 import no.nav.pawproxy.app.module
 import no.nav.pawproxy.oppfolging.veilarboppfolgingUrl
+import no.nav.pawproxy.person.veilarbpersonUrl
 import no.nav.pawproxy.registrering.veilarbregistreringUrl
+import no.nav.pawproxy.testsupport.azure.Azure
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.api.extension.ParameterResolver
@@ -20,13 +22,14 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("AZURE_OPENID_CONFIG_TOKEN_ENDPOINT", wiremockEnvironment.wireMockServer.getAzureV2TokenUrl())
         System.setProperty("AZURE_APP_CLIENT_ID", "paw-proxy")
         System.setProperty("AZURE_APP_CLIENT_SECRET", "testapp")
-        System.setProperty("AZURE_OPENID_CONFIG_ISSUER", "")
+        System.setProperty("AZURE_OPENID_CONFIG_ISSUER", Azure.V2_0.getIssuer())
         System.setProperty("NAIS_CLUSTER_NAME", "dev-fss")
         System.setProperty("NAIS_NAMESPACE", "paw")
         System.setProperty("HTTP_PROXY", wiremockEnvironment.wireMockServer.baseUrl())
         System.setProperty("NAIS_NAMESPACE", "paw")
         System.setProperty("VEILARBREGISTRERING_URL", wiremockEnvironment.wireMockServer.veilarbregistreringUrl())
         System.setProperty("VEILARBOPPFOLGING_URL", wiremockEnvironment.wireMockServer.veilarboppfolgingUrl())
+        System.setProperty("VEILARBPERSON_URL", wiremockEnvironment.wireMockServer.veilarbpersonUrl())
     }
 
     private val testApplicationEngine = TestApplicationEngine(

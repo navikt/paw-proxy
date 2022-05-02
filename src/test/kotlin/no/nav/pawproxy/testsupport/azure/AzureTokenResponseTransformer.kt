@@ -1,4 +1,4 @@
-package no.nav.pawproxy.testsupport
+package no.nav.pawproxy.testsupport.azure
 
 import com.github.tomakehurst.wiremock.common.FileSource
 import com.github.tomakehurst.wiremock.extension.Parameters

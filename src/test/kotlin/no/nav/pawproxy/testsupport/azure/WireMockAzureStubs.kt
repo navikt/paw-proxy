@@ -1,4 +1,4 @@
-package no.nav.pawproxy.testsupport
+package no.nav.pawproxy.testsupport.azure
 
 import com.github.tomakehurst.wiremock.client.WireMock
 

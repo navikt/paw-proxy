@@ -1,21 +1,21 @@
-package no.nav.pawproxy.oppfolging
+package no.nav.pawproxy.person
 
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import no.nav.pawproxy.testsupport.azure.AzureFunctions.medAzure
 import no.nav.pawproxy.testsupport.TestApplicationExtension
+import no.nav.pawproxy.testsupport.azure.AzureFunctions.medAzure
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 
 @ExtendWith(TestApplicationExtension::class)
-internal class VeilarboppfolgingRouteTest(private val testApplicationEngine: TestApplicationEngine) {
+internal class VeilarbpersonRouteTest(private val testApplicationEngine: TestApplicationEngine) {
 
     @Test
-    fun `GET-request mot veilarboppfolging skal gi 200`() {
+    fun `GET-request mot veilarbperson skal gi 200`() {
         with(testApplicationEngine) {
-            handleRequest(HttpMethod.Get, "/veilarboppfolging/test") {
+            handleRequest(HttpMethod.Get, "/veilarbperson/test") {
                 medAzure()
             }.apply {
                 Assertions.assertEquals(HttpStatusCode.OK, this.response.status())
@@ -23,12 +23,12 @@ internal class VeilarboppfolgingRouteTest(private val testApplicationEngine: Tes
         }
     }
 
+
     @Test
-    fun `request med token scopet til annen tjeneste gir 401`() {
+    fun `request med token fra en feil audience gir 401`() {
         with(testApplicationEngine) {
-            handleRequest(HttpMethod.Get, "/veilarboppfolging/test") {
+            handleRequest(HttpMethod.Get, "veilarbperson/test") {
                 medAzure(audience = "ikke-paw-proxy")
-                addHeader(HttpHeaders.ContentType, "application/json")
             }.apply {
                 Assertions.assertEquals(HttpStatusCode.Unauthorized, this.response.status())
             }

@@ -1,4 +1,4 @@
-package no.nav.pawproxy.testsupport
+package no.nav.pawproxy.testsupport.azure
 
 object AzureWellKnown {
     fun response(

@@ -2,8 +2,7 @@ package no.nav.pawproxy.registrering
 
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import no.nav.pawproxy.oauth2.veilarbregistrering
-import no.nav.pawproxy.testsupport.AzureFunctions.medAzure
+import no.nav.pawproxy.testsupport.azure.AzureFunctions.medAzure
 import no.nav.pawproxy.testsupport.TestApplicationExtension
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

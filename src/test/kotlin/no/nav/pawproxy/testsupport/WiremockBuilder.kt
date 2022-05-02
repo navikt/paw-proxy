@@ -3,6 +3,10 @@ package no.nav.pawproxy.testsupport
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
+import no.nav.pawproxy.testsupport.azure.Azure
+import no.nav.pawproxy.testsupport.azure.AzureTokenResponseTransformer
+import no.nav.pawproxy.testsupport.azure.AzureWellKnown
+import no.nav.pawproxy.testsupport.azure.WireMockAzureStubs
 
 class WireMockBuilder {
 

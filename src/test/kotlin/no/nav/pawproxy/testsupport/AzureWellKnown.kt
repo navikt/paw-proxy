@@ -2,7 +2,7 @@ package no.nav.pawproxy.testsupport
 
 object AzureWellKnown {
     fun response(
-        issuer : String,
+        issuer: String,
         tokenEndpoint: String,
         jwksUri: String,
         authorizationEndpoint: String

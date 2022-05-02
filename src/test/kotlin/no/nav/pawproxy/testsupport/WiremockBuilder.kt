@@ -33,8 +33,8 @@ class WireMockBuilder {
             .urlPathMatching(".*${Paths.AZURE_V2_TOKEN_PATH}.*"))
             .willReturn(WireMock.aResponse().withTransformers(AZURE_V2_TOKEN_TRANSFORMER)))
 
-        WireMockStubs.stubJwks(path = Paths.AZURE_V2_JWKS_PATH, jwkSet = Azure.V2_0.getPublicJwk())
-        WireMockStubs.stubWellKnown(
+        WireMockAzureStubs.stubJwks(path = Paths.AZURE_V2_JWKS_PATH, jwkSet = Azure.V2_0.getPublicJwk())
+        WireMockAzureStubs.stubWellKnown(
             path = Paths.AZURE_V2_WELL_KNOWN_PATH,
             response = AzureWellKnown.response(
                 issuer = Azure.V2_0.getIssuer(),

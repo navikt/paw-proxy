@@ -33,10 +33,7 @@ internal class JwsFunctions(
 
     internal fun getPublicJwk() = publicJwk
 
-    internal fun generateJwt(
-        headers: Map<String, Any> = emptyMap(),
-        claims: Map<String, Any> = emptyMap()
-    ) : String {
+    internal fun generateJwt(headers: Map<String, Any> = emptyMap(), claims: Map<String, Any> = emptyMap()): String {
         val headerBuilder = JWSHeader.Builder(JWSAlgorithm.RS256)
         if (!headers.containsKey("kid")) headerBuilder.keyID(rsaKey.keyID)
         if (!headers.containsKey("typ")) headerBuilder.type(JOSEObjectType.JWT)

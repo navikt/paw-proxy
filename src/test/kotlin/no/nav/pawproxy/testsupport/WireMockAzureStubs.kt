@@ -2,7 +2,7 @@ package no.nav.pawproxy.testsupport
 
 import com.github.tomakehurst.wiremock.client.WireMock
 
-internal object WireMockStubs {
+internal object WireMockAzureStubs {
 
     internal fun stubWellKnown(
         path: String,

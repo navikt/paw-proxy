@@ -32,6 +32,7 @@ internal class VeilarbveilederRouteTest(private val testApplicationEngine: TestA
                 medAzure()
             }.apply {
                 Assertions.assertEquals(HttpStatusCode.OK, this.response.status())
+                Assertions.assertTrue(this.response.content?.contains("test: 123") ?: false)
             }
         }
     }

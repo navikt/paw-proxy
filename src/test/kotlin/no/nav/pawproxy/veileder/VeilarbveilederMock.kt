@@ -14,6 +14,7 @@ private fun WireMockServer.stubVeilarbveilederGet(): WireMockServer {
                 WireMock.aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
+                    .withBody("{test: 123}")
             )
     )
     return this

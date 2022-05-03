@@ -45,7 +45,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Archive NAIS yaml
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/integrasjonstest'
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v1
         with:
           name: nais-yaml
@@ -54,7 +54,7 @@ jobs:
   deploy-dev:
     name: Deploy to dev
     needs: [build]
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/integrasjonstest'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Fetch NAIS yaml

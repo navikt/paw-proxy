@@ -10,7 +10,8 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.pawproxy.app.logger
-import no.nav.pawproxy.http.get
+import no.nav.pawproxy.app.requireProperty
+import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbarena
 
@@ -19,14 +20,14 @@ fun Route.veilarbarenaRoute(httpClient: HttpClient, tokenService: TokenService) 
 
     route("/veilarbarena{...}") {
 
-        val veilarbarenaBaseUrl = "http://veilarbarena.pto.svc.nais.local"
+        val veilarbarenaBaseUrl = requireProperty("VEILARBARENA_URL")
 
         get {
             val path = call.request.uri
 
             val accessToken: String = tokenService.getAccessToken(call, veilarbarena)
             Result.runCatching {
-                httpClient.get<String>("$veilarbarenaBaseUrl$path") {
+                httpClient.forwardGet<String>("$veilarbarenaBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     header("Nav-Consumer-Id", "veilarbregistrering")
                     call.callId?.let {

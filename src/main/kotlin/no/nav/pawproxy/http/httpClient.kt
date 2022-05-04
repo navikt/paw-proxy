@@ -16,7 +16,7 @@ suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline b
         }
     }
 
-suspend inline fun <reified T> HttpClient.get(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
+suspend inline fun <reified T> HttpClient.forwardGet(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
     withContext(Dispatchers.IO) {
         request {
             url(url)

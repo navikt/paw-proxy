@@ -20,18 +20,3 @@ fun requireClusterName() =
 
 fun requireNamespace(): String =
     requireProperty("NAIS_NAMESPACE")
-
-fun requireApplicationName() =
-    requireProperty("NAIS_APP_NAME")
-
-fun applicationNameOrNull() =
-    getPropertyOrNull("NAIS_APP_NAME")
-
-fun isDevelopment(): Boolean =
-    requireClusterName().startsWith("dev")
-
-fun ifDevelopment(block: () -> Any) {
-    if (isDevelopment()) {
-        run(block)
-    }
-}

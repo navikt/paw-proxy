@@ -29,6 +29,16 @@ spec:
   env:
     - name: CORS_ALLOWED_ORIGINS
       value: nav.no
+    - name: VEILARBREGISTRERING_URL
+      value: http://veilarbregistrering
+    - name: VEILARBOPPFOLGING_URL
+      value: http://veilarboppfolging.pto.svc.nais.local
+    - name: VEILARBPERSON_URL
+      value: http://veilarbperson.pto.svc.nais.local
+    - name: VEILARBARENA_URL
+      value: http://veilarbarena.pto.svc.nais.local
+    - name: VEILARBVEILEDER_URL
+      value: http://veilarbveileder.pto.svc.nais.local
   resources:
     limits:
       cpu: "1"

@@ -35,6 +35,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                     call.callId?.let {
                         header("Nav-Call-Id", it)
                     }
+                    call.request.header("Nav-Consumer-Id")?.let {
+                        header("Nav-Consumer-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

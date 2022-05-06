@@ -33,6 +33,9 @@ fun Route.veilarbpersonRoute(httpClient: HttpClient, tokenService: TokenService)
                     call.callId?.let {
                         header("Nav-Call-Id", it)
                     }
+                    call.request.header("Nav-Consumer-Id")?.let {
+                        header("Nav-Consumer-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

@@ -33,6 +33,9 @@ fun Route.veilarbveilederRoute(httpClient: HttpClient, tokenService: TokenServic
                     call.callId?.let {
                         header("Nav-Call-Id", it)
                     }
+                    call.request.header("Nav-Consumer-Id")?.let {
+                        header("Nav-Consumer-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

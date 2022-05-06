@@ -33,6 +33,9 @@ fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenServ
                     call.callId?.let {
                         header("Nav-Call-Id", it)
                     }
+                    call.request.header("Nav-Consumer-Id")?.let {
+                        header("Nav-Consumer-Id", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

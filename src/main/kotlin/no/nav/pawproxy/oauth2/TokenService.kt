@@ -41,7 +41,6 @@ class TokenService(private val httpClient: HttpClient) {
     private fun performGrantRequest(call: ApplicationCall, api: DownstreamApi): String {
         val accessToken = call.request.authorization()?.substring("Bearer ".length)
             ?: throw IllegalStateException("Forventet access token!")
-        logger.info("Now Exchanging token with claims: ${JWTParser.parse(accessToken).jwtClaimsSet}")
 
         val accessTokenService =
             OAuth2AccessTokenService({ Optional.of(accessToken) }, onBehalfOfTokenClient, null, null)

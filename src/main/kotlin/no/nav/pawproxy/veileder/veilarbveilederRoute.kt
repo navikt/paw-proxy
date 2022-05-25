@@ -39,7 +39,6 @@ fun Route.veilarbveilederRoute(httpClient: HttpClient, tokenService: TokenServic
                 }
             }.fold(
                 onSuccess = {
-                    logger.info("Respons fra veilarbveileder med path $path: $it")
                     call.respondText(it)
                 },
                 onFailure = {

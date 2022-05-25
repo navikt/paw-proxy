@@ -39,7 +39,6 @@ fun Route.veilarbarenaRoute(httpClient: HttpClient, tokenService: TokenService) 
                 }
             }.fold(
                 onSuccess = {
-                    logger.info("Respons fra veilarbarena med path $path: $it")
                     call.respondText(it)
                 },
                 onFailure = {

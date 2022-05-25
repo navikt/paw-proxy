@@ -41,7 +41,6 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                 }
             }.fold(
                 onSuccess = {
-                    logger.info("Respons fra veilarbregistrering med path $path: $it")
                     call.respondText(it)
                 },
                 onFailure = {
@@ -71,7 +70,6 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                 }
             }.fold(
                 onSuccess = {
-                    logger.info("Respons fra veilarbregistrering med path $path: $it")
                     call.respondBytes(bytes = it.readBytes(), status = it.status)
                 },
                 onFailure = {

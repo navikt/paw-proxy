@@ -39,7 +39,6 @@ fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenServ
                 }
             }.fold(
                 onSuccess = {
-                    logger.info("Respons fra veilarboppfolging med path $path: $it")
                     call.respondText(it)
                 },
                 onFailure = {

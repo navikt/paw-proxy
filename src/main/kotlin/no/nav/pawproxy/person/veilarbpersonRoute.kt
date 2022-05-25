@@ -39,7 +39,6 @@ fun Route.veilarbpersonRoute(httpClient: HttpClient, tokenService: TokenService)
                 }
             }.fold(
                 onSuccess = {
-                    logger.info("Respons fra veilarbperson med path $path: $it")
                     call.respondText(it)
                 },
                 onFailure = {

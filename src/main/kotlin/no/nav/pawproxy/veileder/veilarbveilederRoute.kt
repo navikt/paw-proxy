@@ -6,6 +6,8 @@ import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.network.sockets.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -42,9 +44,17 @@ fun Route.veilarbveilederRoute(httpClient: HttpClient, tokenService: TokenServic
                     call.respondText(it)
                 },
                 onFailure = {
-                    val exception = it as ResponseException
-                    logger.warn("Feil mot veilarbveileder med path $path: ${it.message}")
-                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+                    when (it) {
+                        is SocketTimeoutException -> {
+                            logger.warn("Timeout mot veilarbveileder med path $path: ${it.message}")
+                            call.respond(status = HttpStatusCode.GatewayTimeout, message = it.message?:"SocketTimeout mot veilarbveileder - ingen melding")
+                        }
+                        else -> {
+                            val exception = it as ResponseException
+                            logger.warn("Feil mot veilarbveileder med path $path: ${exception.message}")
+                            call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+                        }
+                    }
                 }
             )
         }

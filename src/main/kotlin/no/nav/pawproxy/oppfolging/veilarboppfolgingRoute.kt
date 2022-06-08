@@ -31,7 +31,6 @@ fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenServ
             Result.runCatching {
                 httpClient.forwardGet<String>("$veilarboppfolgingBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
-                    header("Nav-Consumer-Id", "arbeidssokerregistrering-veileder")
                     call.callId?.let {
                         header("Nav-Call-Id", it)
                     }
@@ -47,12 +46,18 @@ fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenServ
                     when (it) {
                         is SocketTimeoutException -> {
                             logger.warn("Feil mot veilarboppfolging med path $path: ${it.message}")
-                            call.respond(status = HttpStatusCode.GatewayTimeout, message = it.message?:"SocketTimeout mot veilarboppfolging - ingen melding")
+                            call.respond(
+                                status = HttpStatusCode.GatewayTimeout,
+                                message = it.message ?: "SocketTimeout mot veilarboppfolging - ingen melding"
+                            )
                         }
                         else -> {
                             val exception = it as ResponseException
                             logger.warn("Feil mot veilarboppfolging med path $path: ${it.message}")
-                            call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+                            call.respondBytes(
+                                status = exception.response.status,
+                                bytes = exception.response.readBytes()
+                            )
                         }
                     }
                 }

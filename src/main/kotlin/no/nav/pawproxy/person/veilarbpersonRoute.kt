@@ -29,7 +29,6 @@ fun Route.veilarbpersonRoute(httpClient: HttpClient, tokenService: TokenService)
             Result.runCatching {
                 httpClient.forwardGet<String>("$veilarbpersonBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
-                    header("Nav-Consumer-Id", call.request.header("Nav-Consumer-Id"))
                     call.callId?.let {
                         header("Nav-Call-Id", it)
                     }

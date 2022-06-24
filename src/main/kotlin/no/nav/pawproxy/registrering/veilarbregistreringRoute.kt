@@ -15,6 +15,7 @@ import no.nav.pawproxy.http.forwardPost
 import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireProperty
+import no.nav.pawproxy.http.handleExceptionAndRespond
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbregistrering
 
@@ -73,9 +74,7 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                     call.respondBytes(bytes = it.readBytes(), status = it.status)
                 },
                 onFailure = {
-                    val exception = it as ResponseException
-                    logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
-                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+                    call.handleExceptionAndRespond(it, "veilarbregistrering", path)
                 }
             )
         }

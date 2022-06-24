@@ -2,16 +2,14 @@ package no.nav.pawproxy.person
 
 import io.ktor.application.*
 import io.ktor.client.*
-import io.ktor.client.features.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.features.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
+import no.nav.pawproxy.http.handleExceptionAndRespond
 import no.nav.pawproxy.oauth2.TokenService
 import no.nav.pawproxy.oauth2.veilarbperson
 
@@ -41,9 +39,7 @@ fun Route.veilarbpersonRoute(httpClient: HttpClient, tokenService: TokenService)
                     call.respondText(it)
                 },
                 onFailure = {
-                    val exception = it as ResponseException
-                    logger.warn("Feil mot veilarbperson med path $path: ${it.message}")
-                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+                    call.handleExceptionAndRespond(it, "veilarbperson", path)
                 }
             )
         }

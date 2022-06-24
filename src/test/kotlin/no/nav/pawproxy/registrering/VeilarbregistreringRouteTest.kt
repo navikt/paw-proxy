@@ -45,12 +45,12 @@ internal class VeilarbregistreringRouteTest(private val testApplicationEngine: T
     }
 
     @Test
-    fun `api-et skal respondere med riktig statuskode fra veilarbregistrering i en success`() {
+    fun `POST-request skal respondere med riktig statuskode fra veilarbregistrering i en success`() {
         with(testApplicationEngine) {
             handleRequest(HttpMethod.Post, "/veilarbregistrering/test") {
                 medAzure()
                 addHeader(HttpHeaders.ContentType, "application/json")
-                setBody("{}")
+                setBody("{\"dato\":\"2022-06-24\"}")
             }.apply {
                 assertEquals(HttpStatusCode.NoContent, this.response.status())
             }
@@ -58,7 +58,7 @@ internal class VeilarbregistreringRouteTest(private val testApplicationEngine: T
     }
 
     @Test
-    fun `api-et skal respondere med riktig statuskode fra veilarbregistrering i en failure`() {
+    fun `POST-request skal respondere med riktig statuskode fra veilarbregistrering i en failure`() {
         with(testApplicationEngine) {
             handleRequest(HttpMethod.Post, "/veilarbregistrering/test") {
                 medAzure()

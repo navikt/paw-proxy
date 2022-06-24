@@ -2,6 +2,7 @@ package no.nav.pawproxy.registrering
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
 import io.ktor.http.*
 
 private val veilarbregistreringTestPath = "/mock-veilarbregistrering"
@@ -11,6 +12,7 @@ private fun WireMockServer.stubVeilarbregistreringPost(): WireMockServer {
         WireMock.post(WireMock.urlPathMatching(".*$veilarbregistreringTestPath.*"))
             .withHeader(HttpHeaders.ContentType, WireMock.equalTo("application/json"))
             .withHeader(HttpHeaders.Authorization, WireMock.containing("Bearer "))
+            .withRequestBody(equalToJson("{\"dato\": \"2022-06-24\"}"))
             .willReturn(
                 WireMock.aResponse()
                     .withStatus(204)

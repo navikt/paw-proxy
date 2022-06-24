@@ -16,12 +16,16 @@ suspend fun ApplicationCall.handleExceptionAndRespond(throwable: Throwable, appN
             this.respond(status = HttpStatusCode.GatewayTimeout, message = throwable.message ?: "SocketTimeout mot $appName - ingen melding")
         }
         is ConnectionClosedException -> {
+            logger.warn("Connection closed mot $appName med path $path: ${throwable.message}")
             this.respond(status = HttpStatusCode.GatewayTimeout, message = throwable.message ?: "SocketTimeout mot $appName - ingen melding")
         }
+        is ResponseException -> {
+            logger.warn("Feil mot $appName med path $path: ${throwable.message}")
+            this.respondBytes(status = throwable.response.status, bytes = throwable.response.readBytes())
+        }
         else -> {
-            val exception = throwable as ResponseException
-            logger.warn("Feil mot $appName med path $path: ${exception.message}")
-            this.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+            logger.warn("Ukjent feil mot $appName med path $path.", throwable)
+            this.respond(status = HttpStatusCode.InternalServerError, message = throwable.message ?: "Ukjent feil mot $appName - ingen melding")
         }
     }
 }

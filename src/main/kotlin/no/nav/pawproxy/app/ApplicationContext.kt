@@ -1,8 +1,10 @@
 package no.nav.pawproxy.app
 
+import no.nav.common.token_client.builder.AzureAdTokenClientBuilder
+import no.nav.common.token_client.builder.TokenXTokenClientBuilder
 import no.nav.pawproxy.health.HealthService
 import no.nav.pawproxy.http.HttpClientBuilder
-import no.nav.pawproxy.oauth2.TokenService
+import no.nav.pawproxy.token.TokenService
 
 class ApplicationContext {
 
@@ -11,6 +13,7 @@ class ApplicationContext {
 
     val healthService = HealthService(this)
 
-    val tokenService = TokenService(externalHttpClient)
-
+    private val tokenXClient = TokenXTokenClientBuilder.builder().buildOnBehalfOfTokenClient()
+    private val azureAdClient = AzureAdTokenClientBuilder.builder().buildOnBehalfOfTokenClient()
+    val tokenService = TokenService(tokenXClient, azureAdClient)
 }

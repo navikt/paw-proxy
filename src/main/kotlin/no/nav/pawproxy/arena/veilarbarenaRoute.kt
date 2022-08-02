@@ -10,8 +10,8 @@ import io.ktor.routing.*
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.http.handleExceptionAndRespond
-import no.nav.pawproxy.oauth2.TokenService
-import no.nav.pawproxy.oauth2.veilarbarena
+import no.nav.pawproxy.token.TokenService
+import no.nav.pawproxy.token.veilarbarena
 
 
 fun Route.veilarbarenaRoute(httpClient: HttpClient, tokenService: TokenService) {

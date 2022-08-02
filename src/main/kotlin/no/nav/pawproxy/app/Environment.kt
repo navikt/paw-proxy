@@ -3,10 +3,14 @@ package no.nav.pawproxy.app
 
 data class Environment(
     val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS"),
-    val wellKnownUrl: String = requireProperty("AZURE_APP_WELL_KNOWN_URL"),
-    val tokenEndpoint: String = requireProperty("AZURE_OPENID_CONFIG_TOKEN_ENDPOINT"),
-    val clientId: String = requireProperty("AZURE_APP_CLIENT_ID"),
-    val issuer: String = requireProperty("AZURE_OPENID_CONFIG_ISSUER"),
+    val azureWellKnownUrl: String = requireProperty("AZURE_APP_WELL_KNOWN_URL"),
+    val azureTokenEndpoint: String = requireProperty("AZURE_OPENID_CONFIG_TOKEN_ENDPOINT"),
+    val azureClientId: String = requireProperty("AZURE_APP_CLIENT_ID"),
+    val azureIssuer: String = requireProperty("AZURE_OPENID_CONFIG_ISSUER"),
+    val tokenXWellKnownUrl: String = requireProperty("TOKEN_X_WELL_KNOWN_URL"),
+    val tokenXTokenEndpoint: String = requireProperty("TOKEN_X_TOKEN_ENDPOINT"),
+    val tokenXClientId: String = requireProperty("TOKEN_X_CLIENT_ID"),
+    val tokenXIssuer: String = requireProperty("TOKEN_X_ISSUER"),
 )
 
 fun requireProperty(property: String) =

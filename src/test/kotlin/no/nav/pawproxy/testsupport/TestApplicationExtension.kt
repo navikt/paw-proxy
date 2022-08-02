@@ -5,6 +5,7 @@ import com.typesafe.config.ConfigFactory
 import io.ktor.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.testing.*
+import no.nav.pawproxy.app.localModule
 import no.nav.pawproxy.app.module
 import no.nav.pawproxy.arena.veilarbarenaUrl
 import no.nav.pawproxy.oppfolging.veilarboppfolgingUrl
@@ -21,15 +22,22 @@ internal class TestApplicationExtension: ParameterResolver {
 
     private fun mockEnv() {
         System.setProperty("CORS_ALLOWED_ORIGINS", "localhost")
+        System.setProperty("NAIS_CLUSTER_NAME", "dev-fss")
+        System.setProperty("NAIS_NAMESPACE", "paw")
+        System.setProperty("HTTP_PROXY", wiremockEnvironment.wireMockServer.baseUrl())
+
         System.setProperty("AZURE_APP_WELL_KNOWN_URL", wiremockEnvironment.wireMockServer.getAzureV2WellKnownUrl())
         System.setProperty("AZURE_OPENID_CONFIG_TOKEN_ENDPOINT", wiremockEnvironment.wireMockServer.getAzureV2TokenUrl())
         System.setProperty("AZURE_APP_CLIENT_ID", "paw-proxy")
         System.setProperty("AZURE_APP_CLIENT_SECRET", "testapp")
         System.setProperty("AZURE_OPENID_CONFIG_ISSUER", Azure.V2_0.getIssuer())
-        System.setProperty("NAIS_CLUSTER_NAME", "dev-fss")
-        System.setProperty("NAIS_NAMESPACE", "paw")
-        System.setProperty("HTTP_PROXY", wiremockEnvironment.wireMockServer.baseUrl())
-        System.setProperty("NAIS_NAMESPACE", "paw")
+
+        System.setProperty("TOKEN_X_WELL_KNOWN_URL", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx")
+        System.setProperty("TOKEN_X_CLIENT_ID", "paw-peoxy")
+        System.setProperty("TOKEN_X_PRIVATE_JWK", "test123")
+        System.setProperty("TOKEN_X_TOKEN_ENDPOINT", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx/endpoint")
+        System.setProperty("TOKEN_X_ISSUER", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx/issuer")
+
         System.setProperty("VEILARBREGISTRERING_URL", wiremockEnvironment.wireMockServer.veilarbregistreringUrl())
         System.setProperty("VEILARBOPPFOLGING_URL", wiremockEnvironment.wireMockServer.veilarboppfolgingUrl())
         System.setProperty("VEILARBPERSON_URL", wiremockEnvironment.wireMockServer.veilarbpersonUrl())
@@ -40,7 +48,7 @@ internal class TestApplicationExtension: ParameterResolver {
     private val testApplicationEngine = TestApplicationEngine(
         environment = createTestEnvironment {
             config = HoconApplicationConfig(ConfigFactory.load().withoutPath("ktor.application.modules"))
-            module { module() }
+            module { localModule() }
         }
     )
 

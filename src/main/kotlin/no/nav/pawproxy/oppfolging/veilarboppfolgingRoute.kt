@@ -10,8 +10,8 @@ import io.ktor.routing.*
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.http.handleExceptionAndRespond
-import no.nav.pawproxy.oauth2.TokenService
-import no.nav.pawproxy.oauth2.veilarboppfolging
+import no.nav.pawproxy.token.TokenService
+import no.nav.pawproxy.token.veilarboppfolging
 
 
 fun Route.veilarboppfolgingRoute(httpClient: HttpClient, tokenService: TokenService) {

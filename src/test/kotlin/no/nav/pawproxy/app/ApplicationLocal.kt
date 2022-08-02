@@ -2,7 +2,6 @@ package no.nav.pawproxy.app
 
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
@@ -15,7 +14,6 @@ import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
 import no.nav.pawproxy.registrering.veilarbregistreringRoute
 import no.nav.pawproxy.veileder.veilarbveilederRoute
-import no.nav.security.token.support.core.configuration.MultiIssuerConfiguration
 import no.nav.security.token.support.ktor.IssuerConfig
 import no.nav.security.token.support.ktor.TokenSupportConfig
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -24,8 +22,8 @@ import java.util.*
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 @Suppress("unused")
-fun Application.module() {
-    val appContext = ApplicationContext()
+fun Application.localModule() {
+    val appContext = ApplicationContextLocal()
     val environment = Environment()
     val config = IssuerConfig(
         name = "veiledere",
@@ -34,6 +32,9 @@ fun Application.module() {
     )
 
     install(DefaultHeaders)
+    install(Authentication) {
+        tokenValidationSupport(config = TokenSupportConfig(config))
+    }
 
     install(CallId) {
         retrieve { call ->
@@ -59,6 +60,10 @@ fun Application.module() {
         mdc("requestId") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
     }
 
+    install(ContentNegotiation) {
+        jackson()
+    }
+
     install(CORS) {
         anyHost()
         method(HttpMethod.Options)
@@ -70,17 +75,8 @@ fun Application.module() {
         allowSameOrigin = true
     }
 
-    install(Authentication) {
-        tokenValidationSupport(config = TokenSupportConfig(config))
-    }
-
-    install(ContentNegotiation) {
-        jackson()
-    }
-
     routing {
         healthRoute(appContext.healthService)
-
         authenticate {
             veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbarenaRoute(appContext.internalHttpClient, appContext.tokenService)
@@ -91,10 +87,4 @@ fun Application.module() {
     }
 
     configureShutdownHook(listOf(appContext.internalHttpClient, appContext.externalHttpClient))
-}
-
-fun Application.configureShutdownHook(list: List<HttpClient>) {
-    environment.monitor.subscribe(ApplicationStopping) {
-        list.forEach { it.close() }
-    }
 }

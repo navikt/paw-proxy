@@ -10,8 +10,8 @@ import io.ktor.routing.*
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.http.handleExceptionAndRespond
-import no.nav.pawproxy.oauth2.TokenService
-import no.nav.pawproxy.oauth2.veilarbperson
+import no.nav.pawproxy.token.TokenService
+import no.nav.pawproxy.token.veilarbperson
 
 
 fun Route.veilarbpersonRoute(httpClient: HttpClient, tokenService: TokenService) {

@@ -16,8 +16,8 @@ import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.handleExceptionAndRespond
-import no.nav.pawproxy.oauth2.TokenService
-import no.nav.pawproxy.oauth2.veilarbregistrering
+import no.nav.pawproxy.token.TokenService
+import no.nav.pawproxy.token.veilarbregistrering
 
 
 fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenService) {

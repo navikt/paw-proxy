@@ -15,9 +15,7 @@ import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
 import no.nav.pawproxy.registrering.veilarbregistreringRoute
 import no.nav.pawproxy.veileder.veilarbveilederRoute
-import no.nav.security.token.support.core.configuration.MultiIssuerConfiguration
-import no.nav.security.token.support.ktor.IssuerConfig
-import no.nav.security.token.support.ktor.TokenSupportConfig
+import no.nav.security.token.support.ktor.asIssuerProps
 import no.nav.security.token.support.ktor.tokenValidationSupport
 import java.util.*
 
@@ -26,12 +24,17 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 @Suppress("unused")
 fun Application.module() {
     val appContext = ApplicationContext()
-    val environment = Environment()
-    val config = IssuerConfig(
-        name = "veiledere",
-        discoveryUrl = environment.azureWellKnownUrl,
-        acceptedAudience = listOf(environment.azureClientId)
-    )
+    val applicationConfig = this.environment.config
+    val allIssuers = applicationConfig.asIssuerProps().keys
+    install(Authentication) {
+        allIssuers
+            .forEach { issuer: String ->
+                tokenValidationSupport(
+                    name = issuer,
+                    config = applicationConfig
+                )
+            }
+    }
 
     install(DefaultHeaders)
 
@@ -70,9 +73,6 @@ fun Application.module() {
         allowSameOrigin = true
     }
 
-    install(Authentication) {
-        tokenValidationSupport(config = TokenSupportConfig(config))
-    }
 
     install(ContentNegotiation) {
         jackson()

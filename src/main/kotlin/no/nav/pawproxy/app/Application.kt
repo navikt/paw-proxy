@@ -81,7 +81,9 @@ fun Application.module() {
     routing {
         healthRoute(appContext.healthService)
 
-        authenticate {
+        authenticate (
+            configurations = allIssuers.toTypedArray()
+        ) {
             veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbarenaRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)

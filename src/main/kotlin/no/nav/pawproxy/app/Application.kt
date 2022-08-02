@@ -23,8 +23,6 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.module() {
-    val tokenXEnvVariable = requireProperty("TOKEN_X_WELL_KNOWN_URL")
-    println("TokenX env-variabel: $tokenXEnvVariable")
     val appContext = ApplicationContext()
     val applicationConfig = this.environment.config
     val allIssuers = applicationConfig.asIssuerProps().keys

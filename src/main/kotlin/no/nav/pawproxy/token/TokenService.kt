@@ -5,6 +5,7 @@ import io.ktor.application.*
 import io.ktor.request.*
 import no.nav.common.token_client.client.AzureAdOnBehalfOfTokenClient
 import no.nav.common.token_client.client.TokenXOnBehalfOfTokenClient
+import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireClusterName
 import no.nav.pawproxy.app.requireNamespace
 import no.nav.pawproxy.app.requireProperty
@@ -31,17 +32,23 @@ class TokenService(
 
     private fun exchangeToken(call: ApplicationCall, api: DownstreamApi): String {
         val accessToken = call.request.authorization()?.substring("Bearer ".length)
-            ?: throw IllegalStateException("Forventet access token!")
+            ?: throw TokenExchangeException("Fant ikke accesstoken for token-veksling")
         return when {
-            erAzureADToken(accessToken) -> azureAdClient.exchangeOnBehalfOfToken(
-                "api://${api.cluster}.${api.namespace}.${api.appName}/.default",
-                accessToken
-            )
-            erTokenXToken(accessToken) -> tokenXClient.exchangeOnBehalfOfToken(
-                "${api.cluster}:${api.namespace}:${api.appName}",
-                accessToken
-            )
-            else -> throw IllegalStateException("Klarer ikke veksle token som er en annen type enn Azure AD eller TokenX")
+            erAzureADToken(accessToken) -> {
+                logger.info("Veksler Azure AD-token for ${api.appName}")
+                azureAdClient.exchangeOnBehalfOfToken(
+                    "api://${api.cluster}.${api.namespace}.${api.appName}/.default",
+                    accessToken
+                )
+            }
+            erTokenXToken(accessToken) -> {
+                logger.info("Veksler TokenX-token for ${api.appName}")
+                tokenXClient.exchangeOnBehalfOfToken(
+                    "${api.cluster}:${api.namespace}:${api.appName}",
+                    accessToken
+                )
+            }
+            else -> throw TokenExchangeException("Klarer ikke veksle token som er en annen type enn Azure AD eller TokenX")
         }
     }
 

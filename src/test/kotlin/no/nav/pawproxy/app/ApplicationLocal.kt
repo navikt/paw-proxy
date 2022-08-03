@@ -24,11 +24,10 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 @Suppress("unused")
 fun Application.localModule() {
     val appContext = ApplicationContextLocal()
-    val environment = Environment()
     val config = IssuerConfig(
         name = "veiledere",
-        discoveryUrl = environment.azureWellKnownUrl,
-        acceptedAudience = listOf(environment.azureClientId)
+        discoveryUrl = requireProperty("AZURE_APP_WELL_KNOWN_URL"),
+        acceptedAudience = listOf(requireProperty("AZURE_APP_CLIENT_ID"))
     )
 
     install(DefaultHeaders)

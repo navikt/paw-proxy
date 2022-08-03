@@ -33,7 +33,7 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("AZURE_OPENID_CONFIG_ISSUER", Azure.V2_0.getIssuer())
 
         System.setProperty("TOKEN_X_WELL_KNOWN_URL", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx")
-        System.setProperty("TOKEN_X_CLIENT_ID", "paw-peoxy")
+        System.setProperty("TOKEN_X_CLIENT_ID", "paw-proxy")
         System.setProperty("TOKEN_X_PRIVATE_JWK", "test123")
         System.setProperty("TOKEN_X_TOKEN_ENDPOINT", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx/endpoint")
         System.setProperty("TOKEN_X_ISSUER", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx/issuer")

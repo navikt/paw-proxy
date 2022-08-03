@@ -20,6 +20,8 @@ spec:
   azure:
     application:
       enabled: true
+  tokenx:
+    enabled: true
   webproxy: true
   secureLogs:
     enabled: true

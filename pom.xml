@@ -11,13 +11,13 @@
 
     <properties>
         <main.class>no.nav.pawproxy.app.ApplicationKt</main.class>
-        <ktor.version>1.6.7</ktor.version>
+        <ktor.version>2.0.2</ktor.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.version>1.6.10</kotlin.version>
         <logback.version>1.2.3</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <tokenSupport.version>2.0.19</tokenSupport.version>
+        <tokenSupport.version>2.1.2</tokenSupport.version>
         <nav.common.version>2.2022.07.01_07.12-6a0864fa6938</nav.common.version>
     </properties>
 
@@ -25,37 +25,63 @@
         <!-- Ktor -->
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-core</artifactId>
+            <artifactId>ktor-server-core-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-auth</artifactId>
+            <artifactId>ktor-server-netty-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-serialization</artifactId>
+            <artifactId>ktor-server-tests-jvm</artifactId>
+            <version>${ktor.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-server-auth-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-client-apache</artifactId>
+            <artifactId>ktor-server-cors-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-client-jackson</artifactId>
+            <artifactId>ktor-server-call-logging-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-jackson</artifactId>
+            <artifactId>ktor-server-call-id-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-netty</artifactId>
+            <artifactId>ktor-server-default-headers-jvm</artifactId>
+            <version>${ktor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-server-content-negotiation-jvm</artifactId>
+            <version>${ktor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-jackson-jvm</artifactId>
+            <version>${ktor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-apache-jvm</artifactId>
+            <version>${ktor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-content-negotiation-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
 
@@ -79,7 +105,7 @@
         <!-- NAV -->
         <dependency>
             <groupId>no.nav.security</groupId>
-            <artifactId>token-validation-ktor</artifactId>
+            <artifactId>token-validation-ktor-v2</artifactId>
             <version>${tokenSupport.version}</version>
         </dependency>
         <dependency>
@@ -94,18 +120,6 @@
         </dependency>
 
         <!-- Test -->
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-tests</artifactId>
-            <version>${ktor.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
@@ -232,4 +246,11 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>ktor-eap</id>
+            <name>ktor-eap</name>
+            <url>https://maven.pkg.jetbrains.space/public/p/ktor/eap/</url>
+        </repository>
+    </repositories>
 </project>

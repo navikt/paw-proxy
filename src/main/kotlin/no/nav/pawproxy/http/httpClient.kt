@@ -2,11 +2,12 @@ package no.nav.pawproxy.http
 
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
+suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): HttpResponse =
     withContext(Dispatchers.IO) {
         request {
             url(url)
@@ -16,7 +17,7 @@ suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline b
         }
     }
 
-suspend inline fun <reified T> HttpClient.forwardGet(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): T =
+suspend inline fun <reified T> HttpClient.forwardGet(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): HttpResponse =
     withContext(Dispatchers.IO) {
         request {
             url(url)

@@ -1,11 +1,11 @@
 package no.nav.pawproxy.http
 
-import io.ktor.application.*
-import io.ktor.client.features.*
+import io.ktor.server.application.*
+import io.ktor.client.plugins.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.network.sockets.*
-import io.ktor.response.*
+import io.ktor.server.response.*
 import no.nav.pawproxy.app.logger
 import org.apache.http.ConnectionClosedException
 

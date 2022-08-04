@@ -1,8 +1,8 @@
 package no.nav.pawproxy.token
 
 import com.nimbusds.jwt.JWTParser
-import io.ktor.application.*
-import io.ktor.request.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
 import no.nav.common.token_client.client.AzureAdOnBehalfOfTokenClient
 import no.nav.common.token_client.client.TokenXOnBehalfOfTokenClient
 import no.nav.pawproxy.app.logger

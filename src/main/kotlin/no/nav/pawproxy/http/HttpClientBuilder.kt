@@ -1,12 +1,11 @@
 package no.nav.pawproxy.http
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.engine.apache.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.jackson.*
 import no.nav.pawproxy.app.requireProperty
 
 object HttpClientBuilder {
@@ -26,11 +25,8 @@ object HttpClientBuilder {
                 responseCharsetFallback = Charsets.UTF_8
             }
 
-            install(JsonFeature) {
-                serializer = JacksonSerializer {
-                    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                    setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                }
+            install(ContentNegotiation) {
+                jackson()
             }
 
             if (setProxy) {

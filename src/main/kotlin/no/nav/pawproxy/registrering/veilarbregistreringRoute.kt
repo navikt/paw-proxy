@@ -1,20 +1,17 @@
 package no.nav.pawproxy.registrering
 
 import com.fasterxml.jackson.databind.JsonNode
-import io.ktor.application.*
 import io.ktor.client.*
-import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.client.statement.HttpResponse
-import io.ktor.features.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import no.nav.pawproxy.http.forwardPost
-import no.nav.pawproxy.http.forwardGet
-import no.nav.pawproxy.app.logger
+import io.ktor.server.application.*
+import io.ktor.server.plugins.callid.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import no.nav.pawproxy.app.requireProperty
+import no.nav.pawproxy.http.forwardGet
+import no.nav.pawproxy.http.forwardPost
 import no.nav.pawproxy.http.handleExceptionAndRespond
 import no.nav.pawproxy.token.TokenService
 import no.nav.pawproxy.token.veilarbregistrering
@@ -42,12 +39,10 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                 }
             }.fold(
                 onSuccess = {
-                    call.respondText(it)
+                    call.respondBytes(bytes = it.readBytes(), status = it.status)
                 },
                 onFailure = {
-                    val exception = it as ResponseException
-                    logger.warn("Feil mot veilarbregistrering med path $path: ${it.message}")
-                    call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+                    call.handleExceptionAndRespond(it, "veilarbregistrering", path)
                 }
             )
         }
@@ -67,7 +62,7 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                     call.request.header("Nav-Consumer-Id")?.let {
                         header("Nav-Consumer-Id", it)
                     }
-                    body = bodyFraFrontend
+                    setBody(bodyFraFrontend)
                 }
             }.fold(
                 onSuccess = {

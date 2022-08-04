@@ -86,6 +86,6 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          DRY_RUN: true
+          DRY_RUN: false
           RESOURCE: nais/prod.yaml
           PRINT_PAYLOAD: true

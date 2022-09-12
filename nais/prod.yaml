@@ -41,6 +41,8 @@ spec:
       value: http://veilarbarena.pto.svc.nais.local
     - name: VEILARBVEILEDER_URL
       value: http://veilarbveileder.pto.svc.nais.local
+    - name: ABAC_URL
+      value: https://abac-veilarb.intern.nav.no/application/asm-pdp/authorize
   resources:
     limits:
       cpu: "1"

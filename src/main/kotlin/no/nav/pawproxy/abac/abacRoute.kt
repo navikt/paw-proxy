@@ -28,9 +28,9 @@ fun Route.abacRoute(httpClient: HttpClient) {
             }
 
             logger.info("Har nådd get-endepunktet i abac-route")
-            logger.info("Headere: ${call.request.headers.names()}")
 
             val authHeader = call.request.header("Authorization") ?: call.respond(status = HttpStatusCode.Unauthorized, message = "GET-kall til /abac uten Authorization-header")
+            logger.info("Auth-header mot ABAC: $authHeader")
 
             Result.runCatching {
                 httpClient.forwardGet<HttpResponse>(abacUrl) {
@@ -38,9 +38,11 @@ fun Route.abacRoute(httpClient: HttpClient) {
                 }
             }.fold(
                 onSuccess = {
+                    logger.info("Kall til ABAC OK")
                     call.respondBytes(status = it.status, bytes = it.readBytes())
                 },
                 onFailure = {
+                    logger.warn("Kall til ABAC feilet:", it)
                     call.handleExceptionAndRespond(it, "ABAC", abacUrl)
                 }
             )

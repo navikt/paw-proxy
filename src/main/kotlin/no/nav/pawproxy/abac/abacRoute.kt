@@ -18,12 +18,13 @@ import no.nav.pawproxy.http.handleExceptionAndRespond
 fun Route.abacRoute(httpClient: HttpClient) {
 
     route("/abac{...}") {
-        if (requireClusterName().contains("prod")) {
-            throw IllegalStateException("Proxy mot ABAC kun tilgjengelig i dev")
-        }
         val abacUrl = requireProperty("ABAC_URL")
 
         post {
+            if (requireClusterName().contains("prod")) {
+                throw IllegalStateException("Proxy mot ABAC kun tilgjengelig i dev")
+            }
+
             val authHeader = call.request.header("Authorization") ?: call.respond(status = HttpStatusCode.Unauthorized, message = "Kall til /abac uten Authorization-header")
             val body = call.receive<JsonNode>()
 

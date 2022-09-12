@@ -29,14 +29,19 @@ fun Route.abacRoute(httpClient: HttpClient) {
 
             logger.info("Har nådd get-endepunktet i abac-route. Videre URL: $abacUrl")
 
-            val authHeader = call.request.header("Authorization") ?: call.respond(status = HttpStatusCode.Unauthorized, message = "GET-kall til /abac uten Authorization-header")
-            logger.info("Accept-encoding-header: ${call.request.header("Accept-Encoding")}. Content-type-header: ${call.request.header("Content-Type")}")
+            val authHeader = call.request.header("Authorization")
+            if (authHeader == null) {
+                call.respond(
+                    status = HttpStatusCode.Unauthorized,
+                    message = "GET-kall til /abac uten Authorization-header"
+                )
+            }
+            logger.info("Accept-encoding-header: ${call.request.header("Accept-Encoding")}")
             Result.runCatching {
                 httpClient.forwardGet<String>(abacUrl) {
                     header("Authorization", authHeader)
-                    call.request.header("Accept-Encoding")?.let {
-                        header("Accept-Encoding", it)
-                    }
+                    header("Accept-Encoding", call.request.header("Accept-Encoding"))
+                    header("Accept", "*/*")
                 }
             }.fold(
                 onSuccess = {
@@ -57,7 +62,10 @@ fun Route.abacRoute(httpClient: HttpClient) {
 
             logger.info("Har nådd post-endepunktet i abac-route")
 
-            val authHeader = call.request.header("Authorization") ?: call.respond(status = HttpStatusCode.Unauthorized, message = "POST-Kall til /abac uten Authorization-header")
+            val authHeader = call.request.header("Authorization") ?: call.respond(
+                status = HttpStatusCode.Unauthorized,
+                message = "POST-Kall til /abac uten Authorization-header"
+            )
             val body = call.receive<JsonNode>()
 
             Result.runCatching {

@@ -28,6 +28,7 @@ fun Route.abacRoute(httpClient: HttpClient) {
             }
 
             logger.info("Har nådd get-endepunktet i abac-route")
+            logger.info("Headere: ${call.request.headers.names()}")
 
             val authHeader = call.request.header("Authorization") ?: call.respond(status = HttpStatusCode.Unauthorized, message = "GET-kall til /abac uten Authorization-header")
 

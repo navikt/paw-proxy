@@ -27,13 +27,16 @@ fun Route.abacRoute(httpClient: HttpClient) {
                 throw IllegalStateException("Proxy mot ABAC kun tilgjengelig i dev")
             }
 
-            logger.info("Har nådd get-endepunktet i abac-route")
+            logger.info("Har nådd get-endepunktet i abac-route. Videre URL: $abacUrl")
 
             val authHeader = call.request.header("Authorization") ?: call.respond(status = HttpStatusCode.Unauthorized, message = "GET-kall til /abac uten Authorization-header")
 
             Result.runCatching {
-                httpClient.forwardGet<HttpResponse>(abacUrl) {
+                httpClient.forwardGet<String>(abacUrl) {
                     header("Authorization", authHeader)
+                    call.request.header("Accept-Encoding")?.let {
+                        header("Accept-Encoding", it)
+                    }
                 }
             }.fold(
                 onSuccess = {

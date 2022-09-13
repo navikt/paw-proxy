@@ -23,7 +23,7 @@ fun Route.arenaOrdsPingRoute(httpClient: HttpClient) {
                     call.respondBytes(status = it.status, bytes = it.readBytes())
                 },
                 onFailure = {
-                    call.handleExceptionAndRespond(it, "ARENA_ORDS", arenaOrdsUrl)
+                    call.handleExceptionAndRespond(it, "ARENA_ORDS_PING", arenaOrdsUrl)
                 }
             )
         }

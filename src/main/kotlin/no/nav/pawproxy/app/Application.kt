@@ -17,6 +17,7 @@ import io.ktor.server.routing.*
 import no.nav.pawproxy.abac.abacRoute
 import no.nav.pawproxy.arena.veilarbarenaRoute
 import no.nav.pawproxy.arenaords.arenaOrdsPingRoute
+import no.nav.pawproxy.arenaords.arenaOrdsRoute
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
@@ -95,6 +96,7 @@ fun Application.module() {
             configurations = allIssuers.toTypedArray()
         ) {
             veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
+            arenaOrdsRoute(appContext.internalHttpClient)
             veilarbarenaRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbpersonRoute(appContext.internalHttpClient, appContext.tokenService)

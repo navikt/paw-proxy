@@ -1,4 +1,3 @@
-/*
 package no.nav.pawproxy.abac
 
 import com.github.tomakehurst.wiremock.WireMockServer
@@ -25,16 +24,15 @@ class AbacRouteTest(
     }
 
     @Test
-    @Disabled
     fun `POST-request skal respondere med riktig statuskode fra abac i en success`() {
         with(testApplicationEngine) {
-            handleRequest(HttpMethod.Post, "/abac/test") {
-                addHeader(HttpHeaders.ContentType, "application/xacml+json")
+            handleRequest(HttpMethod.Post, "/abac") {
+                addHeader(HttpHeaders.ContentType, "application/json")
                 addHeader(HttpHeaders.Authorization, "Basic auth")
-                setBody("{}")
+                setBody("{\"dato\":\"2022-06-24\"}")
             }.apply {
                 Assertions.assertEquals(HttpStatusCode.OK, this.response.status())
             }
         }
     }
-}*/
+}

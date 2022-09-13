@@ -17,6 +17,15 @@ suspend inline fun <reified T> HttpClient.forwardPost(url: String, crossinline b
         }
     }
 
+suspend inline fun HttpClient.forwardPostWithCustomContentType(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): HttpResponse =
+    withContext(Dispatchers.IO) {
+        request {
+            url(url)
+            method = HttpMethod.Post
+            apply(block)
+        }
+    }
+
 suspend inline fun <reified T> HttpClient.forwardGet(url: String, crossinline block: HttpRequestBuilder.() -> Unit = {}): HttpResponse =
     withContext(Dispatchers.IO) {
         request {

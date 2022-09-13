@@ -16,6 +16,7 @@ import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import no.nav.pawproxy.abac.abacRoute
 import no.nav.pawproxy.arena.veilarbarenaRoute
+import no.nav.pawproxy.arenaords.arenaOrdsPingRoute
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
@@ -88,6 +89,7 @@ fun Application.module() {
     routing {
         healthRoute(appContext.healthService)
         abacRoute(appContext.internalHttpClient)
+        arenaOrdsPingRoute(appContext.internalHttpClient)
 
         authenticate (
             configurations = allIssuers.toTypedArray()

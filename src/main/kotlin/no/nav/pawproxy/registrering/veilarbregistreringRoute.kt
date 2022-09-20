@@ -30,12 +30,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
             Result.runCatching {
                 httpClient.forwardGet<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
-                    call.callId?.let {
-                        header("Nav-Call-Id", it)
-                    }
-                    call.request.header("Nav-Consumer-Id")?.let {
-                        header("Nav-Consumer-Id", it)
-                    }
+                    call.callId?.let { header("Nav-Call-Id", it) }
+                    call.request.header("Nav-Consumer-Id")?.let { header("Nav-Consumer-Id", it) }
+                    call.request.header("x-token")?.let { header("x-token", it) }
                 }
             }.fold(
                 onSuccess = {
@@ -56,12 +53,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
             Result.runCatching {
                 httpClient.forwardPost<HttpResponse>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
-                    call.callId?.let {
-                        header("Nav-Call-Id", it)
-                    }
-                    call.request.header("Nav-Consumer-Id")?.let {
-                        header("Nav-Consumer-Id", it)
-                    }
+                    call.callId?.let { header("Nav-Call-Id", it) }
+                    call.request.header("Nav-Consumer-Id")?.let { header("Nav-Consumer-Id", it) }
+                    call.request.header("x-token")?.let { header("x-token", it) }
                     setBody(bodyFraFrontend)
                 }
             }.fold(

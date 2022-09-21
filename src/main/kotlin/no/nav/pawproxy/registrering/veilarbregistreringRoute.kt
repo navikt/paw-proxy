@@ -9,6 +9,7 @@ import io.ktor.server.plugins.callid.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
 import no.nav.pawproxy.http.forwardPost
@@ -22,8 +23,11 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
     route("/veilarbregistrering{...}") {
 
         val veilarbregistreringBaseUrl = requireProperty("VEILARBREGISTRERING_URL")
+        logger.info("veilarbregistrering...")
 
         get {
+            logger.info("veilarbregistrering:GET")
+
             val path = call.request.uri
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
@@ -45,6 +49,8 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
         }
 
         post {
+            logger.info("veilarbregistrering:POST")
+
             val path = call.request.uri
             val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 

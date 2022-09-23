@@ -1,14 +1,17 @@
 package no.nav.pawproxy.token
 
+import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.JWTParser
 import io.ktor.server.application.*
 import io.ktor.server.request.*
+import no.nav.common.token_client.client.AzureAdMachineToMachineTokenClient
 import no.nav.common.token_client.client.AzureAdOnBehalfOfTokenClient
 import no.nav.common.token_client.client.TokenXOnBehalfOfTokenClient
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireClusterName
 import no.nav.pawproxy.app.requireNamespace
 import no.nav.pawproxy.app.requireProperty
+import java.lang.IllegalArgumentException
 
 /**
  * TokenService har som oppgave å hente ut token for videre kall bakover i verdikjeden. Hvis riktig token allerede
@@ -16,7 +19,8 @@ import no.nav.pawproxy.app.requireProperty
  */
 class TokenService(
     private val tokenXClient: TokenXOnBehalfOfTokenClient,
-    private val azureAdClient: AzureAdOnBehalfOfTokenClient
+    private val azureAdOBOClient: AzureAdOnBehalfOfTokenClient,
+    private val azureAdM2MClient: AzureAdMachineToMachineTokenClient
 ) {
 
     /**
@@ -35,11 +39,20 @@ class TokenService(
             ?: throw TokenExchangeException("Fant ikke accesstoken for token-veksling")
         return when {
             erAzureADToken(accessToken) -> {
-                logger.info("Veksler Azure AD-token for ${api.appName}")
-                azureAdClient.exchangeOnBehalfOfToken(
-                    "api://${api.cluster}.${api.namespace}.${api.appName}/.default",
-                    accessToken
-                )
+                val userRole = userRoleFraAccessToken(accessToken)
+
+                return if (userRole == UserRole.EKSTERN) {
+                    logger.info("Veksler Azure AD-token for ${api.appName}")
+                    azureAdOBOClient.exchangeOnBehalfOfToken(
+                        "api://${api.cluster}.${api.namespace}.${api.appName}/.default",
+                        accessToken
+                    )
+                } else {
+                    logger.info("Oppretter M2M-token for ${api.appName}")
+                    azureAdM2MClient.createMachineToMachineToken(
+                        "api://${api.cluster}.${api.namespace}.${api.appName}/.default"
+                    )
+                }
             }
             erTokenXToken(accessToken) -> {
                 logger.info("Veksler TokenX-token for ${api.appName}")
@@ -52,19 +65,31 @@ class TokenService(
         }
     }
 
+    private fun userRoleFraAccessToken(token: String): UserRole {
+        val sub = jwtClaimsSet(token).getClaim("sub")
+        val oid = jwtClaimsSet(token).getClaim("oid")
+
+        if (sub == null || oid == null) {
+            throw IllegalArgumentException("Kunne ikke resolve UserRole. sub eller oid i token er null")
+        }
+
+        return if (sub.equals(oid)) UserRole.SYSTEM else UserRole.EKSTERN
+    }
+
     private fun erAzureADToken(token: String): Boolean {
-        val tokenAsJWT = JWTParser.parse(token)
         val azureAdIssuer = requireProperty("AZURE_OPENID_CONFIG_ISSUER")
-        return tokenAsJWT.jwtClaimsSet.issuer.contains(azureAdIssuer)
+        return jwtClaimsSet(token).issuer.contains(azureAdIssuer)
     }
 
     private fun erTokenXToken(token: String): Boolean {
-        val tokenAsJWT = JWTParser.parse(token)
         val tokenXIssuer = requireProperty("TOKEN_X_ISSUER")
-        return tokenAsJWT.jwtClaimsSet.issuer.contains(tokenXIssuer)
+        return jwtClaimsSet(token).issuer.contains(tokenXIssuer)
     }
+
+    private fun jwtClaimsSet(token: String): JWTClaimsSet = JWTParser.parse(token).jwtClaimsSet
 }
 
+private enum class UserRole { EKSTERN, SYSTEM }
 
 data class DownstreamApi(val cluster: String, val namespace: String, val appName: String)
 

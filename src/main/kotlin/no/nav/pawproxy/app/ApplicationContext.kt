@@ -14,6 +14,7 @@ class ApplicationContext {
     val healthService = HealthService(this)
 
     private val tokenXClient = TokenXTokenClientBuilder.builder().withNaisDefaults().buildOnBehalfOfTokenClient()
-    private val azureAdClient = AzureAdTokenClientBuilder.builder().withNaisDefaults().buildOnBehalfOfTokenClient()
-    val tokenService = TokenService(tokenXClient, azureAdClient)
+    private val azureAdOBOClient = AzureAdTokenClientBuilder.builder().withNaisDefaults().buildOnBehalfOfTokenClient()
+    private val azureAdM2MClient = AzureAdTokenClientBuilder.builder().withNaisDefaults().buildMachineToMachineTokenClient()
+    val tokenService = TokenService(tokenXClient, azureAdOBOClient, azureAdM2MClient)
 }

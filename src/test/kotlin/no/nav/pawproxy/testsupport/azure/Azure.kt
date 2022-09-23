@@ -58,6 +58,7 @@ object Azure {
                     }
                 )
                 putIfAbsent("scp", scopes.joinToString(" "))
+                putIfAbsent("oid","233234")
                 putIfAbsent("sub", UUID.randomUUID().toString())
             }.toMap()
         )

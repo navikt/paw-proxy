@@ -12,6 +12,7 @@ object HttpClientBuilder {
 
     fun build(setProxy: Boolean = true): HttpClient {
         return HttpClient(Apache) {
+            expectSuccess = true
             install(HttpTimeout)
 
             Charsets {

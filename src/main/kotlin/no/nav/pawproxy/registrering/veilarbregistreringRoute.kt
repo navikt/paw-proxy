@@ -23,7 +23,6 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
     route("/veilarbregistrering{...}") {
 
         val veilarbregistreringBaseUrl = requireProperty("VEILARBREGISTRERING_URL")
-        logger.info("veilarbregistrering...")
 
         get {
             logger.info("veilarbregistrering:GET")

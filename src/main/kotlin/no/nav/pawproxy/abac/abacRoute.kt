@@ -9,6 +9,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireClusterName
 import no.nav.pawproxy.app.requireProperty
 import no.nav.pawproxy.http.forwardGet
@@ -62,7 +63,14 @@ fun Route.abacRoute(httpClient: HttpClient) {
                 )
             }
 
+
+            logger.info("/abac : POST")
+
             val body = call.receive<JsonNode>()
+
+            logger.info("/abac : POST - body received")
+
+            logger.info("/abac : POST - content-type ${call.request.header("Content-Type")}")
 
             Result.runCatching {
                 httpClient.forwardPostWithCustomContentType(abacUrl) {

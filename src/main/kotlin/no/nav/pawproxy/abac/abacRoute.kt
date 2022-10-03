@@ -68,10 +68,6 @@ fun Route.abacRoute(httpClient: HttpClient) {
 
             val body = call.receive<String>()
 
-            logger.info("request headers: ${call.request.headers.names()} ")
-
-            logger.info("/abac : POST - content-type ${call.request.header("Content-Type")}")
-
             Result.runCatching {
                 httpClient.forwardPostWithCustomContentType(abacUrl) {
                     call.request.headers.names().filter{ it.toLowerCasePreservingASCIIRules() != "content-length" }.forEach { header(it, call.request.header(it)) }
@@ -79,9 +75,11 @@ fun Route.abacRoute(httpClient: HttpClient) {
                 }
             }.fold(
                 onSuccess = {
+                    logger.info("Kall til ABAC OK. Response: $it")
                     call.respondBytes(status = it.status, bytes = it.readBytes())
                 },
                 onFailure = {
+                    logger.info("Kall til ABAC feilet:", it)
                     call.handleExceptionAndRespond(it, "ABAC", abacUrl)
                 }
             )

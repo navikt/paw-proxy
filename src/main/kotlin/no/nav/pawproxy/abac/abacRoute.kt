@@ -63,12 +63,13 @@ fun Route.abacRoute(httpClient: HttpClient) {
                 )
             }
 
-
             logger.info("/abac : POST")
 
             val body = call.receive<String>()
 
-            logger.info("/abac : POST - body received")
+            logger.info("request headers: ${call.request.headers.names()} ")
+
+            logger.info("/abac : POST - body received: $body")
 
             logger.info("/abac : POST - content-type ${call.request.header("Content-Type")}")
 

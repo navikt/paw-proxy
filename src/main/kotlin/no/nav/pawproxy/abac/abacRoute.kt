@@ -69,16 +69,11 @@ fun Route.abacRoute(httpClient: HttpClient) {
 
             logger.info("request headers: ${call.request.headers.names()} ")
 
-            logger.info("/abac : POST - body received: $body")
-
             logger.info("/abac : POST - content-type ${call.request.header("Content-Type")}")
 
             Result.runCatching {
                 httpClient.forwardPostWithCustomContentType(abacUrl) {
-                    header("Authorization", authHeader)
-                    header("Content-Type", call.request.header("Content-Type"))
-                    header("Accept-Encoding", call.request.header("Accept-Encoding"))
-                    header("Accept", "*/*")
+                    call.request.headers.names().forEach { header(it, call.request.header(it)) }
                     setBody(body)
                 }
             }.fold(

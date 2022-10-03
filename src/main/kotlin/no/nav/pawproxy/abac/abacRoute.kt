@@ -9,6 +9,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.util.*
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireClusterName
 import no.nav.pawproxy.app.requireProperty
@@ -73,7 +74,7 @@ fun Route.abacRoute(httpClient: HttpClient) {
 
             Result.runCatching {
                 httpClient.forwardPostWithCustomContentType(abacUrl) {
-                    call.request.headers.names().forEach { header(it, call.request.header(it)) }
+                    call.request.headers.names().filter{ it.toLowerCasePreservingASCIIRules() != "content-length" }.forEach { header(it, call.request.header(it)) }
                     setBody(body)
                 }
             }.fold(

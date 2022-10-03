@@ -2,8 +2,7 @@ package no.nav.pawproxy.abac
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
-import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
-import com.github.tomakehurst.wiremock.client.WireMock.matching
+import com.github.tomakehurst.wiremock.client.WireMock.*
 import io.ktor.http.*
 
 private val abacTestPath = "/mock-abac"
@@ -11,9 +10,9 @@ private val abacTestPath = "/mock-abac"
 private fun WireMockServer.stubAbacPost(): WireMockServer {
     stubFor(
         WireMock.post(WireMock.urlPathMatching(".*$abacTestPath.*"))
-            .withHeader(HttpHeaders.ContentType, WireMock.equalTo("application/json"))
+            .withHeader(HttpHeaders.ContentType, WireMock.equalTo("application/xacml+json; charset=UTF-8"))
             .withHeader(HttpHeaders.Authorization, matching(".*"))
-            .withRequestBody(equalToJson("{\"dato\": \"2022-06-24\"}"))
+            //.withRequestBody(equalTo(this::class.java.getResource("/xacmlrequest-harTilgangTilEnhet.json").readText()))
             .willReturn(
                 WireMock.aResponse()
                     .withStatus(200)

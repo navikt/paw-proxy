@@ -66,7 +66,7 @@ fun Route.abacRoute(httpClient: HttpClient) {
 
             logger.info("/abac : POST")
 
-            val body = call.receive<JsonNode>()
+            val body = call.receive<String>()
 
             logger.info("/abac : POST - body received")
 

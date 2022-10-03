@@ -27,9 +27,10 @@ class AbacRouteTest(
     fun `POST-request skal respondere med riktig statuskode fra abac i en success`() {
         with(testApplicationEngine) {
             handleRequest(HttpMethod.Post, "/abac") {
-                addHeader(HttpHeaders.ContentType, "application/json")
+                addHeader(HttpHeaders.ContentType, "application/xacml+json")
                 addHeader(HttpHeaders.Authorization, "Basic auth")
-                setBody("{\"dato\":\"2022-06-24\"}")
+
+                setBody(this::class.java.getResource("/xacmlrequest-harTilgangTilEnhet.json").readText())
             }.apply {
                 Assertions.assertEquals(HttpStatusCode.OK, this.response.status())
             }

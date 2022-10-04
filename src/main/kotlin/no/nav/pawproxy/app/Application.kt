@@ -14,7 +14,6 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
-import no.nav.pawproxy.abac.abacRoute
 import no.nav.pawproxy.arena.veilarbarenaRoute
 import no.nav.pawproxy.arenaords.arenaOrdsPingRoute
 import no.nav.pawproxy.arenaords.arenaOrdsRoute
@@ -90,7 +89,6 @@ fun Application.module() {
 
     routing {
         healthRoute(appContext.healthService)
-        abacRoute(appContext.internalHttpClient)
         arenaOrdsPingRoute(appContext.internalHttpClient)
 
         authenticate (

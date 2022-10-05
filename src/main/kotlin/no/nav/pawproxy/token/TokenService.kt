@@ -52,14 +52,14 @@ class TokenService(
                     )
                 }
             }
-            erTokenXToken(accessToken) -> {
-                logger.info("Veksler TokenX-token for ${api.appName}")
+            erTokenXToken(accessToken) || erIdPortenToken(accessToken) -> {
+                logger.info("Veksler TokenX-token/IdPorten-token for ${api.appName}")
                 tokenXClient.exchangeOnBehalfOfToken(
                     "${api.cluster}:${api.namespace}:${api.appName}",
                     accessToken
                 )
             }
-            else -> throw TokenExchangeException("Klarer ikke veksle token som er en annen type enn Azure AD eller TokenX")
+            else -> throw TokenExchangeException("Klarer ikke veksle token som er en annen type enn Azure AD, IdPorten eller TokenX")
         }
     }
 
@@ -82,6 +82,11 @@ class TokenService(
     private fun erTokenXToken(token: String): Boolean {
         val tokenXIssuer = requireProperty("TOKEN_X_ISSUER")
         return jwtClaimsSet(token).issuer.contains(tokenXIssuer)
+    }
+
+    private fun erIdPortenToken(token: String): Boolean {
+        val idportenIssuer = "difi.no/idporten-oidc-provider"
+        return jwtClaimsSet(token).issuer.contains(idportenIssuer)
     }
 
     private fun jwtClaimsSet(token: String): JWTClaimsSet = JWTParser.parse(token).jwtClaimsSet

@@ -39,18 +39,16 @@ class TokenService(
             ?: throw TokenExchangeException("Fant ikke accesstoken for token-veksling")
         return when {
             erAzureADToken(accessToken) -> {
-                val userRole = userRoleFraAccessToken(accessToken)
-
-                return if (userRole == UserRole.EKSTERN) {
+                return if (accessTokenErForSystemTilSystem(accessToken)) {
+                    logger.info("Oppretter M2M-token for ${api.appName}")
+                    azureAdM2MClient.createMachineToMachineToken(
+                        "api://${api.cluster}.${api.namespace}.${api.appName}/.default"
+                    )
+                } else {
                     logger.info("Veksler Azure AD-token for ${api.appName}")
                     azureAdOBOClient.exchangeOnBehalfOfToken(
                         "api://${api.cluster}.${api.namespace}.${api.appName}/.default",
                         accessToken
-                    )
-                } else {
-                    logger.info("Oppretter M2M-token for ${api.appName}")
-                    azureAdM2MClient.createMachineToMachineToken(
-                        "api://${api.cluster}.${api.namespace}.${api.appName}/.default"
                     )
                 }
             }
@@ -65,7 +63,7 @@ class TokenService(
         }
     }
 
-    private fun userRoleFraAccessToken(token: String): UserRole {
+    private fun accessTokenErForSystemTilSystem(token: String): Boolean {
         val sub = jwtClaimsSet(token).getClaim("sub")
         val oid = jwtClaimsSet(token).getClaim("oid")
 
@@ -73,7 +71,7 @@ class TokenService(
             throw IllegalArgumentException("Kunne ikke resolve UserRole. sub eller oid i token er null")
         }
 
-        return if (sub.equals(oid)) UserRole.SYSTEM else UserRole.EKSTERN
+        return sub.equals(oid)
     }
 
     private fun erAzureADToken(token: String): Boolean {
@@ -88,8 +86,6 @@ class TokenService(
 
     private fun jwtClaimsSet(token: String): JWTClaimsSet = JWTParser.parse(token).jwtClaimsSet
 }
-
-private enum class UserRole { EKSTERN, SYSTEM }
 
 data class DownstreamApi(val cluster: String, val namespace: String, val appName: String)
 

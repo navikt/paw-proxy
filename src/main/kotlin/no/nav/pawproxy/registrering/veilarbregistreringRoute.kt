@@ -28,9 +28,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
             logger.info("veilarbregistrering:GET")
 
             val path = call.request.uri
-            val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
 
             Result.runCatching {
+                val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
                 httpClient.forwardGet<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
                     call.callId?.let { header("Nav-Call-Id", it) }

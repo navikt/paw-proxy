@@ -28,6 +28,8 @@ spec:
   ingresses:
     - "https://paw-proxy.prod-fss-pub.nais.io"
     - "https://paw-proxy.intern.nav.no/"
+  envFrom:
+    - configmap: loginservice-idporten
   env:
     - name: CORS_ALLOWED_ORIGINS
       value: nav.no

@@ -58,6 +58,9 @@ spec:
         - application: arbeidssokerregistrering-veileder
           cluster: prod-gcp
           namespace: paw
+        - application: dp-soknadsdialog
+          cluster: prod-gcp
+          namespace: teamdagpenger
         - application: veilarbregistrering
           cluster: prod-fss
           namespace: paw

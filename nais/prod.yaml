@@ -39,8 +39,6 @@ spec:
       value: http://veilarboppfolging.pto.svc.nais.local
     - name: VEILARBPERSON_URL
       value: http://veilarbperson.pto.svc.nais.local
-    - name: VEILARBARENA_URL
-      value: http://veilarbarena.pto.svc.nais.local
     - name: VEILARBVEILEDER_URL
       value: http://veilarbveileder.pto.svc.nais.local
     - name: ARENA_ORDS_URL

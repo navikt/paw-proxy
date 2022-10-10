@@ -6,7 +6,6 @@ Tjenesten krever Azure-tokens og veksler til hva den bakomforliggende tjenesten 
 ## Tjenester dekker
 * GET /veilarbregistrering
 * POST /veilarbregistrering
-* GET /veilarbarena
 
 ### Bruk
 paw-proxy har en route per proxyet tjeneste, som beskrevet over. Alt etter dette i url'en blir proxyet videre.   

@@ -12,7 +12,6 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
-import no.nav.pawproxy.arena.veilarbarenaRoute
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
@@ -82,7 +81,6 @@ fun Application.localModule() {
         healthRoute(appContext.healthService)
         authenticate {
             veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
-            veilarbarenaRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbpersonRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbveilederRoute(appContext.internalHttpClient, appContext.tokenService)

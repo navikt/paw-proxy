@@ -64,6 +64,9 @@ spec:
         - application: veilarbregistrering
           cluster: prod-fss
           namespace: paw
+        - application: veilarbregistrering
+          cluster: prod-gcp
+          namespace: paw
     outbound:
       rules:
         - application: veilarbregistrering

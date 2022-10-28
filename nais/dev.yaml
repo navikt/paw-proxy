@@ -42,7 +42,7 @@ spec:
     - name: VEILARBVEILEDER_URL
       value: http://veilarbveileder.pto.svc.nais.local
     - name: ARENA_ORDS_URL
-      value: https://arena-ords-readonly-q1.dev.intern.nav.no
+      value: https://arena-ords-q1.dev.intern.nav.no
     - name: ARENA_ORDS_TOKEN_URL
       value: https://arena-ords-q1.dev.intern.nav.no
   resources:

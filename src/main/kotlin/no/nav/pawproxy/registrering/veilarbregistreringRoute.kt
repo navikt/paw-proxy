@@ -2,6 +2,7 @@ package no.nav.pawproxy.registrering
 
 import com.fasterxml.jackson.databind.JsonNode
 import io.ktor.client.*
+import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.server.application.*
@@ -33,6 +34,9 @@ fun Route.veilarbregistreringRoute(httpClient: HttpClient, tokenService: TokenSe
                 val accessToken: String = tokenService.getAccessToken(call, veilarbregistrering)
                 httpClient.forwardGet<String>("$veilarbregistreringBaseUrl$path") {
                     header("Authorization", "Bearer $accessToken")
+                    if (path.contains("migrering")) {
+                        timeout { socketTimeoutMillis = 120000L }
+                    }
                     call.callId?.let { header("Nav-Call-Id", it) }
                     call.request.header("Nav-Consumer-Id")?.let { header("Nav-Consumer-Id", it) }
                     call.request.header("x-token")?.let { header("x-token", it) }

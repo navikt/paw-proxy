@@ -8,7 +8,6 @@ import io.ktor.server.testing.*
 import no.nav.pawproxy.app.localModule
 import no.nav.pawproxy.oppfolging.veilarboppfolgingUrl
 import no.nav.pawproxy.person.veilarbpersonUrl
-import no.nav.pawproxy.registrering.veilarbregistreringUrl
 import no.nav.pawproxy.testsupport.azure.Azure
 import no.nav.pawproxy.veileder.veilarbveilederUrl
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,7 +35,6 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("TOKEN_X_TOKEN_ENDPOINT", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx/endpoint")
         System.setProperty("TOKEN_X_ISSUER", wiremockEnvironment.wireMockServer.baseUrl() + "/tokenx/issuer")
 
-        System.setProperty("VEILARBREGISTRERING_URL", wiremockEnvironment.wireMockServer.veilarbregistreringUrl())
         System.setProperty("VEILARBOPPFOLGING_URL", wiremockEnvironment.wireMockServer.veilarboppfolgingUrl())
         System.setProperty("VEILARBPERSON_URL", wiremockEnvironment.wireMockServer.veilarbpersonUrl())
         System.setProperty("VEILARBVEILEDER_URL", wiremockEnvironment.wireMockServer.veilarbveilederUrl())

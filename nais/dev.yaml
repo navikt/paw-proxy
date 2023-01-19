@@ -33,8 +33,6 @@ spec:
   env:
     - name: CORS_ALLOWED_ORIGINS
       value: dev.nav.no
-    - name: VEILARBREGISTRERING_URL
-      value: http://veilarbregistrering
     - name: VEILARBOPPFOLGING_URL
       value: http://veilarboppfolging.pto.svc.nais.local
     - name: VEILARBPERSON_URL
@@ -62,9 +60,6 @@ spec:
           cluster: dev-gcp
           namespace: teamdagpenger
         - application: veilarbregistrering
-          cluster: dev-fss
-          namespace: paw
-        - application: veilarbregistrering
           cluster: dev-gcp
           namespace: paw
         - application: paw-reaktiver-arbeidssoker
@@ -72,7 +67,6 @@ spec:
           namespace: paw
     outbound:
       rules:
-        - application: veilarbregistrering
         - application: veilarboppfolging
           namespace: pto
         - application: veilarbperson

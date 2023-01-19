@@ -20,7 +20,6 @@ import no.nav.pawproxy.arenaords.arenaOrdsTokenRoute
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
-import no.nav.pawproxy.registrering.veilarbregistreringRoute
 import no.nav.pawproxy.veileder.veilarbveilederRoute
 import no.nav.security.token.support.v2.asIssuerProps
 import no.nav.security.token.support.v2.tokenValidationSupport
@@ -93,7 +92,6 @@ fun Application.module() {
         authenticate (
             configurations = allIssuers.toTypedArray()
         ) {
-            veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
             arenaOrdsTokenRoute(appContext.internalHttpClient)
             arenaOrdsRoute(appContext.internalHttpClient)
             veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)

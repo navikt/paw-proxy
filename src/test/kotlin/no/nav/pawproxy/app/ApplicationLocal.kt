@@ -15,7 +15,6 @@ import io.ktor.server.routing.*
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
-import no.nav.pawproxy.registrering.veilarbregistreringRoute
 import no.nav.pawproxy.veileder.veilarbveilederRoute
 import no.nav.security.token.support.v2.IssuerConfig
 import no.nav.security.token.support.v2.TokenSupportConfig
@@ -80,7 +79,6 @@ fun Application.localModule() {
     routing {
         healthRoute(appContext.healthService)
         authenticate {
-            veilarbregistreringRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbpersonRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbveilederRoute(appContext.internalHttpClient, appContext.tokenService)

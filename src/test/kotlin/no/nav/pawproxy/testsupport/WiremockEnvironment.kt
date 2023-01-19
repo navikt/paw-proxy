@@ -2,7 +2,6 @@ package no.nav.pawproxy.testsupport
 
 import no.nav.pawproxy.oppfolging.stubVeilarboppfolging
 import no.nav.pawproxy.person.stubVeilarbperson
-import no.nav.pawproxy.registrering.stubVeilarbregistrering
 import no.nav.pawproxy.veileder.stubVeilarbveileder
 
 internal class WiremockEnvironment(
@@ -13,7 +12,6 @@ internal class WiremockEnvironment(
         .withPort(wireMockPort)
         .withAzureSupport()
         .build()
-        .stubVeilarbregistrering()
         .stubVeilarboppfolging()
         .stubVeilarbperson()
         .stubVeilarbveileder()

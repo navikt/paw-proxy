@@ -9,9 +9,7 @@ import no.nav.common.token_client.client.AzureAdOnBehalfOfTokenClient
 import no.nav.common.token_client.client.TokenXOnBehalfOfTokenClient
 import no.nav.pawproxy.app.logger
 import no.nav.pawproxy.app.requireClusterName
-import no.nav.pawproxy.app.requireNamespace
 import no.nav.pawproxy.app.requireProperty
-import java.lang.IllegalArgumentException
 
 /**
  * TokenService har som oppgave å hente ut token for videre kall bakover i verdikjeden. Hvis riktig token allerede
@@ -94,7 +92,6 @@ class TokenService(
 
 data class DownstreamApi(val cluster: String, val namespace: String, val appName: String)
 
-val veilarbregistrering = DownstreamApi(requireClusterName(), requireNamespace(), "veilarbregistrering")
 val veilarboppfolging = DownstreamApi(requireClusterName(), "pto", "veilarboppfolging")
 val veilarbperson = DownstreamApi(requireClusterName(), "pto", "veilarbperson")
 val veilarbveileder = DownstreamApi(requireClusterName(), "pto", "veilarbveileder")

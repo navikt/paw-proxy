@@ -14,9 +14,6 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
-import no.nav.pawproxy.arenaords.arenaOrdsPingRoute
-import no.nav.pawproxy.arenaords.arenaOrdsRoute
-import no.nav.pawproxy.arenaords.arenaOrdsTokenRoute
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
 import no.nav.pawproxy.person.veilarbpersonRoute
@@ -87,13 +84,10 @@ fun Application.module() {
 
     routing {
         healthRoute(appContext.healthService)
-        arenaOrdsPingRoute(appContext.internalHttpClient)
 
         authenticate (
             configurations = allIssuers.toTypedArray()
         ) {
-            arenaOrdsTokenRoute(appContext.internalHttpClient)
-            arenaOrdsRoute(appContext.internalHttpClient)
             veilarboppfolgingRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbpersonRoute(appContext.internalHttpClient, appContext.tokenService)
             veilarbveilederRoute(appContext.internalHttpClient, appContext.tokenService)

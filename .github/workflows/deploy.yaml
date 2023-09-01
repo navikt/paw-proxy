@@ -1,6 +1,10 @@
 name: Build and deploy
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - dev/*
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}/paw-proxy:${{ github.sha }}
@@ -54,7 +58,7 @@ jobs:
   deploy-dev:
     name: Deploy to dev
     needs: [build]
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev')
     runs-on: ubuntu-latest
     steps:
       - name: Fetch NAIS yaml

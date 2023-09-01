@@ -1,4 +1,4 @@
-FROM navikt/java:17
+FROM ghcr.io/navikt/baseimages/temurin:17
 
 COPY /target/app-jar-with-dependencies.jar app.jar
 

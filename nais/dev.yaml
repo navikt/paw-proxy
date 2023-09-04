@@ -23,14 +23,14 @@ spec:
       allowAllUsers: true
   tokenx:
     enabled: true
+  idporten:
+    enabled: true
   webproxy: true
   secureLogs:
     enabled: true
   ingresses:
     - "https://paw-proxy.dev-fss-pub.nais.io"
     - "https://paw-proxy.dev.intern.nav.no/"
-  envFrom:
-    - configmap: loginservice-idporten
   env:
     - name: CORS_ALLOWED_ORIGINS
       value: dev.nav.no

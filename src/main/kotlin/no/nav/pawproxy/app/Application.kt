@@ -63,6 +63,10 @@ fun Application.module() {
     install(CallLogging) {
         callIdMdc("callId")
 
+        filter {
+            !it.request.path().startsWith("/internal")
+        }
+
         mdc("requestId") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
     }
 

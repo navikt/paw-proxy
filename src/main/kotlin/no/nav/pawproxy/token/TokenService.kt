@@ -83,7 +83,7 @@ class TokenService(
     }
 
     private fun erIdPortenToken(token: String): Boolean {
-        val idportenIssuer = "difi.no/idporten-oidc-provider"
+        val idportenIssuer = requireProperty("IDPORTEN_ISSUER")
         return jwtClaimsSet(token).issuer.contains(idportenIssuer)
     }
 

@@ -23,8 +23,6 @@ spec:
       allowAllUsers: true
   tokenx:
     enabled: true
-  idporten:
-    enabled: true
   webproxy: true
   secureLogs:
     enabled: true

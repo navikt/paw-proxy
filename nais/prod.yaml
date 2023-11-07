@@ -48,6 +48,9 @@ spec:
   accessPolicy:
     inbound:
       rules:
+        - application: arbeidssokerregistrering-for-veileder
+          cluster: prod-gcp
+          namespace: paw
         - application: arbeidssokerregistrering-veileder
           cluster: prod-gcp
           namespace: paw

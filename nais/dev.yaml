@@ -51,9 +51,6 @@ spec:
         - application: arbeidssokerregistrering-for-veileder
           cluster: dev-gcp
           namespace: paw
-        - application: arbeidssokerregistrering-veileder
-          cluster: dev-gcp
-          namespace: paw
         - application: dp-soknadsdialog
           cluster: dev-gcp
           namespace: teamdagpenger

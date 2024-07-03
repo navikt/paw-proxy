@@ -40,11 +40,10 @@ spec:
       value: http://veilarbveileder.pto.svc.nais.local
   resources:
     limits:
-      cpu: "1"
-      memory: 512Mi
+      memory: 256Mi
     requests:
-      cpu: "500m"
-      memory: 512Mi
+      cpu: 25
+      memory: 256Mi
   accessPolicy:
     inbound:
       rules:

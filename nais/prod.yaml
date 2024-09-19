@@ -62,7 +62,8 @@ spec:
     outbound:
       rules:
         - application: veilarboppfolging
-          namespace: pto
+          namespace: poao
+          cluster: prod-gcp
         - application: veilarbperson
           namespace: pto
         - application: veilarbveileder

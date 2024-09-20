@@ -47,9 +47,6 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: arbeidssokerregistrering-for-veileder
-          cluster: dev-gcp
-          namespace: paw
         - application: dp-soknadsdialog
           cluster: dev-gcp
           namespace: teamdagpenger
@@ -62,7 +59,8 @@ spec:
     outbound:
       rules:
         - application: veilarboppfolging
-          namespace: pto
+          namespace: poao
+          cluster: dev-gcp
         - application: veilarbperson
           namespace: pto
         - application: veilarbveileder

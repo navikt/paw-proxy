@@ -13,6 +13,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.request.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import no.nav.pawproxy.health.healthRoute
 import no.nav.pawproxy.oppfolging.veilarboppfolgingRoute
@@ -87,6 +88,13 @@ fun Application.module() {
     }
 
     routing {
+        val pingJsonResponse = """{"ping": "pong"}"""
+
+        get("/ping") {
+            logger.info("ping")
+            call.respondText(pingJsonResponse, ContentType.Application.Json)
+        }
+
         healthRoute(appContext.healthService)
 
         authenticate (

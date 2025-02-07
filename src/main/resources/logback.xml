@@ -29,6 +29,7 @@
     <logger name="no.nav" level="INFO"/>
     <logger name="io.ktor.auth.jwt" level="TRACE" />
     <logger name="org.hibernate.validator" level="WARN"/>
+    <logger name="io.ktor" level="INFO" />
 
     <root level="INFO">
         <appender-ref ref="stdout_json"/>

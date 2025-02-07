@@ -38,9 +38,13 @@ spec:
       value: http://veilarbperson.pto.svc.nais.local
     - name: VEILARBVEILEDER_URL
       value: http://veilarbveileder.pto.svc.nais.local
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: java
   resources:
     limits:
-      memory: 256Mi
+      memory: 512Mi
     requests:
       cpu: 25m
       memory: 256Mi

@@ -1,3 +1,6 @@
+> [!WARNING]
+> Appen er ikke lengre i bruk og koden er arkivert
+
 # paw-proxy
 
 Proxy for at arbeidssokerregistrering-tjenester i gcp kan kalle tjenester i fss.
